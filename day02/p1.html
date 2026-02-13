@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="hu">
+<!--
+<!DOCTYPE html>
+<html lang="hu">
+-->
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DAY01 1. Fertő-tó keleti térség</title>
+  <title>Les Chalets De Lozzi – Korzika</title>
 
   <link rel="stylesheet" href="../assets/css/style.css">
 
-  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- Háttérkép ugyanaz, mint a hero image -->
   <style>
     body {
       background: url("images/DAY02_01_Les_Chalets_De_Lozzi.jpg") center / cover no-repeat fixed;
@@ -26,18 +28,45 @@
       border-radius: 8px;
       border: 1px solid #333;
     }
+
+    .content-section {
+      margin-bottom: 24px;
+    }
+
+    .content-section h2 {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #fff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 5px;
+    }
+
+    .highlight-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #f39c12;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .highlight-box h3 {
+      font-size: 1.1rem;
+      margin-top: 0;
+      color: #ddd;
+      font-weight: bold;
+    }
   </style>
 </head>
 
 <body>
   <div class="page">
 
-    <!-- TOPBAR -->
     <div class="topbar">
       <div class="inner">
         <div class="brand">
-          <div class="title">Kék Duna túra</div>
-          <div class="subtitle">DAY01 1. Fertő-tó keleti térség</div>
+          <div class="title">Korzika túra</div>
+          <div class="subtitle">Les Chalets De Lozzi</div>
         </div>
         <div class="btnrow">
           <a class="btn" href="../index.html">🏠 Főoldal</a>
@@ -46,24 +75,59 @@
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="container">
       <div class="card">
 
-        <div class="h1">1. Fertő-tó keleti térség</div>
-        <div class="small">47.660292, 16.643593</div>
+        <div class="h1">Les Chalets De Lozzi</div>
 
-        <!-- HERO IMAGE -->
-        <img class="hero-image" src="images/DAY02_01_Les_Chalets_De_Lozzi.jpg" alt="Fertő-tó keleti térség">
+        <img class="hero-image" src="images/DAY02_01_Les_Chalets_De_Lozzi.jpg" alt="Les Chalets De Lozzi">
 
-        <div class="p">
-          A Fertő-tó Európa egyik legkülönlegesebb tava, a kontinens legnyugatibb sztyepptava.
-          Sekély vize és nádasai UNESCO Világörökségi területet alkotnak, az átlagmélység kb egy
-          méter körüli. Több mint 300 madárfaj figyelhető meg, a magyar oldalon a Fertő Hanság
-          Nemzeti Park, az osztrák oldalon a Neusiedler See Seewinkel Nemzeti Park óvja a területet.
+        <div class="highlight-box">
+          <strong>Hegyvidéki menedék a felhők alatt.</strong> Ez a pont az a hely, ahol a tengerparti forróságot felváltja a kristálytiszta, hűvös hegyi levegő. A Niolu-völgy szívében fekvő bázis nemcsak egy megálló, hanem az igazi, vad Korzika kapuja, ahol a sziget belső ereje és nyugalma uralkodik.
         </div>
 
-        <!-- ACTION BUTTONS -->
+        <div class="content-section">
+          <h2>Hegyvidéki bázispont</h2>
+          <p class="p">A Les Chalets De Lozzi tökéletes átmenetet képez a tengerparti világ és a magashegyi vonulatok között. 1000 méter feletti magasságban, a Monte Cinto lábánál fekszik, így a levegő itt még a legforróbb nyári napokon is felfrissülést nyújt. Kiváló stratégiai pont a pihenésre vagy a túrák előtti felkészülésre.</p>
+        </div>
+
+        <div class="content-section">
+          <h2>Belső-Korzika hangulata</h2>
+          <p class="p">Itt elfelejthetjük a turistáktól nyüzsgő strandokat. A tájat a gránitsziklák, az ősi fenyvesek és a legelésző állatok határozzák meg. A környék atmoszférája a régi pásztorélet emlékét idézi, miközben logikus és látványos kiindulópontot ad az északkeleti irányba, Bastia felé történő átvágáshoz.</p>
+        </div>
+
+        <div class="highlight-box">
+          <h3>🔦 Megfigyelni való</h3>
+          <p class="p">Érdemes egy pillantást vetni az esti égboltra: a fényszennyezés hiánya miatt a csillagok itt egészen közelinek tűnnek. Figyelje meg a növényzet változását is, ahogy a mediterrán cserjés (maquis) helyét átveszik a robusztus hegyi tűlevelűek.</p>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="poibtns">
+          <a class="btn btn-blue" href="https://www.google.com/maps?q=42.346651,9.013368" target="_blank" rel="noopener">🧭 Navigáció</a>
+          <button type="button" class="btn" id="btnNext">➡️ Következő</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const map = L.map('map').setView([42.346651, 9.013368], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+    L.marker([42.346651, 9.013368]).addTo(map)
+      .bindPopup('Les Chalets De Lozzi')
+      .openPopup();
+  </script>
+</body>
+
+</html>
+
+<!--
+        ACTION BUTTONS
         <div class="poibtns">
           <a class="btn btn-blue" href="https://maps.app.goo.gl/GJjuWzCPYz76gSss6" target="_blank" rel="noopener">
             🧭 Navigáció
@@ -75,7 +139,7 @@
           <a class="btn" href="../index.html">🏠 Főoldal</a>
         </div>
 
-        <!-- MAP – LEGALUL -->
+        MAP – LEGALUL
         <div id="map"></div>
 
       </div>
@@ -137,3 +201,4 @@
 </body>
 
 </html>
+-->
