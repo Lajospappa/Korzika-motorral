@@ -1,114 +1,484 @@
 <!DOCTYPE html>
 <html lang="hu">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DAY02 2. Le Vieux Port de Bastia</title>
+  <title>DAY02 lista nézet</title>
 
   <link rel="stylesheet" href="../assets/css/style.css">
 
+  <!-- Leaflet (CSAK HOZZÁADVA) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+  <!-- DAY02 háttér -->
   <style>
-    body {
-      background: url("images/DAY02_02_Le_Vieux_Port_de_Bastia.jpg") center / cover no-repeat fixed;
+    body.day02 {
+      background: url("images/DAY02_01_Les_Chalets_De_Lozzi.jpg") center / cover no-repeat fixed;
     }
 
-    #map {
-      width: 100%;
-      height: 320px;
-      margin-top: 18px;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+    /* szövegdoboz háttér picit sötétebb */
+    .card{
+      background: rgba(0,0,0,0.72);
+    }
+
+    /* --- SZÁMOZOTT KÉK POI JELÖLŐ (CSAK HOZZÁADVA) --- */
+    .poi-numbered-icon {
+      background: transparent;
+      border: none;
+    }
+    .poi-numbered-icon svg {
+      display: block;
     }
   </style>
 </head>
 
-<body>
-  <div class="page">
+<body class="day02">
+<div class="page">
 
-    <div class="topbar">
-      <div class="inner">
-        <div class="brand">
-          <div class="title">Korzika motor tura</div>
-          <div class="subtitle">DAY02 2. Le Vieux Port de Bastia</div>
-        </div>
-        <div class="btnrow">
-          <a class="btn" href="../index.html">Fooldal</a>
-          <a class="btn" href="index.html">Lista nezet</a>
-        </div>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="inner">
+      <div class="brand">
+        <div class="title">Korzika motor tura</div>
+        <div class="subtitle">DAY02 lista nézet</div>
+      </div>
+      <div class="btnrow">
+        <a class="btn" href="../index.html">🏠 Főoldal</a>
+        <button class="btn btn-accent" id="btnNearest">📌 Legközelebbi pont</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="container">
+
+    <div class="card">
+      <div class="h1">DAY02 – Lozzi, Bastia, Cap Corse, Saint-Florent, Teghime</div>
+      <div class="small">
+        A mérés automatikusan indul oldalnyitáskor, majd 5 mp múlva frissít.
+        A távolságok minden célpontnál frissülnek, és az oldal a legvalószínűbb következő pontra ugrik.
+      </div>
+      <div class="notice" id="gpsNotice" style="display:none">
+        A böngésző nem tudott helyet kérni. Ellenőrizd a helymeghatározási engedélyt (Telefon: beállítások → Böngésző → Hely).
       </div>
     </div>
 
-    <div class="container">
-      <div class="card">
+    <div style="height:14px"></div>
 
-        <div class="h1">2. Le Vieux Port de Bastia</div>
-        <div class="small">42.695411, 9.449519</div>
+    <div class="grid" id="poiList">
 
-        <img class="hero-image" src="images/DAY02_02_Le_Vieux_Port_de_Bastia.jpg" alt="Le Vieux Port de Bastia">
+      <!-- P1 -->
+      <div class="poi" id="p1">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">1. Les Chalets De Lozzi</div>
+            <div class="coords">42.346651, 9.013368</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p1"></span><span data-badgetext="p1">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p1">távolság: —</span></span>
+          </div>
+        </div>
 
         <div class="p">
-          (Ide jon a sajat leirasod.)
+          Hegyvidéki bázispont a tengerparti világ után, érezhetően hűvösebb levegővel és más fényekkel.
+          Motoros nap elején vagy végén is jól működik, mert azonnal megjön a belső Korzika hangulata.
+          Innen logikus a további átvezetés Bastia felé.
         </div>
 
         <div class="poibtns">
-          <a class="btn btn-blue" href="https://maps.google.com/?q=42.695411,9.449519" target="_blank" rel="noopener">Navi</a>
-          <a class="btn btn-accent" href="index.html">Lista nezet</a>
+          <a class="btn btn-accent" href="p1.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.346651,9.013368" target="_blank">🧭 Navigáció</a>
         </div>
 
-        <div class="poibtns">
-          <a class="btn" href="../index.html">Fooldal</a>
-        </div>
-
-        <div id="map"></div>
-
+        <img class="inline-image" src="images/DAY02_01_Les_Chalets_De_Lozzi.jpg" alt="Les Chalets De Lozzi">
       </div>
+
+      <!-- P2 -->
+      <div class="poi" id="p2">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">2. Le Vieux Port de Bastia</div>
+            <div class="coords">42.695411, 9.449519</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p2"></span><span data-badgetext="p2">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p2">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Bastia régi kikötője a város legsűrűbb hangulatú része, este különösen filmszerű a fények tükröződése miatt.
+          A rakparti házsorok és a kikötőöböl formája ma is látványosan mesél a város tengeri szerepéről.
+          Rövid sétás megállónak ideális, és innen logikus felmenni a Cap Corse irányába.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p2.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.695411,9.449519" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY02_02_Le_Vieux_Port_de_Bastia.jpg" alt="Le Vieux Port de Bastia">
+      </div>
+
+      <!-- P3 -->
+      <div class="poi" id="p3">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">3. Restaurant Le Pirate</div>
+            <div class="coords">42.774262, 9.476360</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p3"></span><span data-badgetext="p3">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p3">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Tipikus Cap Corse vízparti megálló, ahol maga a kikötős helyszín is program.
+          Jó ebédpont, mert napközben a fények és a tenger mozgása adja a legjobb látványt.
+          Rövid megállóként is működik, mielőtt felmész a gerincre a kilátók felé.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p3.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.774262,9.47636" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY02_03_Restaurant_Le_Pirate.jpg" alt="Restaurant Le Pirate">
+      </div>
+
+      <!-- P4 -->
+      <div class="poi" id="p4">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">4. Tour de Sénèque – legenda és kilátó</div>
+            <div class="coords">42.905365, 9.372800</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p4"></span><span data-badgetext="p4">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p4">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A Cap Corse gerincén álló toronyrom gyorsan atmoszférát csinál a széllel és a magaslati érzéssel.
+          A Seneca történet inkább legenda, de pont ettől emlékezetes a név és a táj párosa.
+          Tiszta időben a körpanoráma nagyon erős, pár perces megállóval is sokat ad.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p4.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.905365,9.3728" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY02_04_Tour_de_Seneque.jpg" alt="Tour de Sénèque">
+      </div>
+
+      <!-- P5 -->
+      <div class="poi" id="p5">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">5. Saint-Florent genovai citadellája</div>
+            <div class="coords">42.682850, 9.301656</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p5"></span><span data-badgetext="p5">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p5">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Történelmi és tájképi pont egyszerre, felülről olvasható az öböl és a kikötő logikája.
+          A genovai korszak erődítései közül ez különösen jó kilátó, mielőtt lemennél a vízpartra.
+          Rövid sétával sok vizuális információt ad a Nebbio környékéről.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p5.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.68285,9.301656" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY02_05_Saint_Florent_genovai_citadella.jpg" alt="Saint-Florent genovai citadellája">
+      </div>
+
+      <!-- P6 -->
+      <div class="poi" id="p6">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">6. Saint-Florent öböl</div>
+            <div class="coords">42.679818, 9.302238</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p6"></span><span data-badgetext="p6">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p6">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A citadella után logikus „lent a víz mellett” megálló, így a fenti panoráma mellé megjön a kikötő élménye is.
+          Itt találkozik a hegyes belső Korzika és a tengerparti világ, ezért a táj rétegzett és változatos.
+          Jó ritmusváltás hosszabb motorozás után, fotóra és pihenőre is.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p6.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.679818,9.302238" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY02_06_Saint_Florent_obol.jpg" alt="Saint-Florent öböl">
+      </div>
+
+      <!-- P7 -->
+      <div class="poi" id="p7">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">7. Col de Teghime</div>
+            <div class="coords">42.677120, 9.382760</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p7"></span><span data-badgetext="p7">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p7">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Kötelező motoros hágó Bastia és Saint-Florent között, kanyarokkal és két oldalra nyíló kilátással.
+          Rövid megállóval is erős, mert a gerinc keskenysége és a tenger közelsége azonnal érződik.
+          Történeti rétege is van, a második világháborúban stratégiai pontként emlegetik.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p7.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.67712,9.38276" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY02_07_Col_de_Teghime.jpg" alt="Col de Teghime">
+      </div>
+
+    </div>
+
+    <!-- TÖRÖLVE: Képek mappája: day02/images ... -->
+
+    <!-- TÉRKÉP AZ OLDAL ALJÁN (CSAK HOZZÁADVA) -->
+    <div style="height:16px"></div>
+    <div class="card">
+      <div class="h1">Térkép</div>
+      <div id="map" style="width:100%; height:360px; border-radius:12px;"></div>
     </div>
 
   </div>
+</div>
 
-  <script>
-    const POI = { name: "Le Vieux Port de Bastia", lat: 42.695411, lon: 9.449519 };
+<script>
+const POIS = [
+  {id:"p1",lat:42.346651,lon:9.013368},
+  {id:"p2",lat:42.695411,lon:9.449519},
+  {id:"p3",lat:42.774262,lon:9.47636},
+  {id:"p4",lat:42.905365,lon:9.3728},
+  {id:"p5",lat:42.68285,lon:9.301656},
+  {id:"p6",lat:42.679818,lon:9.302238},
+  {id:"p7",lat:42.67712,lon:9.38276}
+];
 
-    const map = L.map("map").setView([POI.lat, POI.lon], 13);
+let sample1 = null;
+let t2 = null;
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: "© OpenStreetMap"
-    }).addTo(map);
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat/2)**2 +
+    Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
 
-    L.marker([POI.lat, POI.lon]).addTo(map).bindPopup(`<b>${POI.name}</b>`);
+function setBadge(id, txt){
+  const el = document.querySelector(`[data-badgetext="${id}"]`);
+  if(el) el.textContent = txt;
+}
 
-    let userMarker = null;
+function setDist(id, km){
+  const el = document.querySelector(`[data-dist="${id}"]`);
+  if(el) el.textContent = `távolság: ${km.toFixed(2)} km`;
+}
 
-    const userIconRed = L.icon({
+function computeDistances(pos){
+  const out = {};
+  POIS.forEach(p=>{
+    out[p.id] = haversineKm(pos.lat, pos.lon, p.lat, p.lon);
+  });
+  return out;
+}
+
+function scrollToPoi(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+function pickTarget(d1, d2, moveKm){
+  if(moveKm < 0.03) {
+    let best = null;
+    for(const id in d2){
+      if(!best || d2[id] < best.km) best = {id, km:d2[id]};
+    }
+    return best ? best.id : null;
+  }
+
+  let best = null;
+  for(const id in d2){
+    const delta = (d1 && d1[id] != null) ? (d1[id] - d2[id]) : 0;
+    const score = delta;
+    if(!best) best = {id, score, km:d2[id]};
+    else {
+      if(score > best.score + 1e-9) best = {id, score, km:d2[id]};
+      else if(Math.abs(score - best.score) < 1e-9 && d2[id] < best.km) best = {id, score, km:d2[id]};
+    }
+  }
+  return best ? best.id : null;
+}
+
+function updateUI(distances){
+  for(const id in distances){
+    setDist(id, distances[id]);
+    setBadge(id, "mérve");
+  }
+}
+
+function getPosOnce(){
+  return new Promise((resolve, reject)=>{
+    if(!navigator.geolocation){
+      reject(new Error("Geolocation not supported"));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      p => resolve({lat:p.coords.latitude, lon:p.coords.longitude}),
+      e => reject(e),
+      { enableHighAccuracy:true, maximumAge:0, timeout:12000 }
+    );
+  });
+}
+
+async function runMeasureCycle(scrollAfter=true){
+  if(t2) { clearTimeout(t2); t2 = null; }
+  document.getElementById("gpsNotice").style.display = "none";
+
+  try{
+    const posA = await getPosOnce();
+    const dA = computeDistances(posA);
+    updateUI(dA);
+    sample1 = {pos:posA, d:dA};
+
+    if(scrollAfter){
+      const nearestA = Object.keys(dA).reduce((best,id)=> !best || dA[id] < dA[best] ? id : best, null);
+      if(nearestA) scrollToPoi(nearestA);
+    }
+
+    t2 = setTimeout(async ()=>{
+      try{
+        const posB = await getPosOnce();
+        const dB = computeDistances(posB);
+        updateUI(dB);
+
+        const moveKm = haversineKm(sample1.pos.lat, sample1.pos.lon, posB.lat, posB.lon);
+        const target = pickTarget(sample1.d, dB, moveKm);
+        if(target) scrollToPoi(target);
+
+      } catch(err2){
+        document.getElementById("gpsNotice").style.display = "block";
+      }
+    }, 5000);
+
+  } catch(err){
+    document.getElementById("gpsNotice").style.display = "block";
+  }
+}
+
+runMeasureCycle(true);
+
+document.getElementById("btnNearest").addEventListener("click", ()=>{
+  runMeasureCycle(true);
+});
+
+/* TÉRKÉP LOGIKA (CSAK HOZZÁADVA) + SZÁMOZOTT KÉK POI-JELÖLŐK + PIROS SAJÁT HELY */
+let map;
+
+function blueNumberIcon(n) {
+  const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="46" viewBox="0 0 30 46">
+  <path d="M15 0C8 0 2.5 5.5 2.5 12.5C2.5 23 15 46 15 46C15 46 27.5 23 27.5 12.5C27.5 5.5 22 0 15 0Z"
+        fill="#2A81CB" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>
+  <text x="15" y="18" text-anchor="middle"
+        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+        font-size="13" font-weight="800"
+        fill="#ff2b2b" stroke="#ffffff" stroke-width="2" paint-order="stroke">${n}</text>
+</svg>`;
+
+  return L.divIcon({
+    className: "poi-numbered-icon",
+    html: svg,
+    iconSize: [30, 46],
+    iconAnchor: [15, 46],
+    popupAnchor: [0, -38]
+  });
+}
+
+function getPoiTitle(id) {
+  const el = document.querySelector(`#${id} .poi-title`);
+  return el ? el.textContent.trim() : id;
+}
+
+function initMap(userPos) {
+  map = L.map("map");
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap"
+  }).addTo(map);
+
+  const bounds = [];
+
+  // POI-k: kék pin + sorszám
+  POIS.forEach(p => {
+    const num = parseInt(String(p.id).replace("p", ""), 10);
+    const safeNum = Number.isFinite(num) ? num : "";
+    const title = getPoiTitle(p.id);
+
+    L.marker([p.lat, p.lon], { icon: blueNumberIcon(safeNum) })
+      .addTo(map)
+      .bindPopup(title);
+
+    bounds.push([p.lat, p.lon]);
+  });
+
+  // Saját helyzet piros jelölővel
+  if (userPos) {
+    const redIcon = L.icon({
       iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
       shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
       iconSize: [25, 41],
-      iconAnchor: [12, 41]
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
     });
 
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(
-        pos => {
-          const lat = pos.coords.latitude;
-          const lon = pos.coords.longitude;
+    L.marker([userPos.lat, userPos.lon], { icon: redIcon })
+      .addTo(map)
+      .bindPopup("📍 Itt vagyok");
 
-          if (!userMarker) {
-            userMarker = L.marker([lat, lon], { icon: userIconRed }).addTo(map).bindPopup("Itt vagy most");
-          } else {
-            userMarker.setLatLng([lat, lon]);
-          }
-        },
-        err => console.log("GPS hiba:", err),
-        { enableHighAccuracy: true }
-      );
-    }
-  </script>
+    bounds.push([userPos.lat, userPos.lon]);
+  }
+
+  if (bounds.length) {
+    map.fitBounds(bounds, { padding: [30, 30] });
+  }
+}
+
+getPosOnce()
+  .then(pos => initMap(pos))
+  .catch(() => initMap(null));
+</script>
 
 </body>
-
 </html>
