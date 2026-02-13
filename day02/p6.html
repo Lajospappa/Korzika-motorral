@@ -4,15 +4,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DAY02 6. Restaurant Le Pirate</title>
+  <title>Saint-Florent öböl – Kikötői pihenő</title>
 
   <link rel="stylesheet" href="../assets/css/style.css">
 
-  <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <!-- Háttérkép ugyanaz, mint a hero image -->
   <style>
     body {
       background: url("images/DAY02_06_Saint_Florent_obol.jpg") center / cover no-repeat fixed;
@@ -26,18 +24,45 @@
       border-radius: 8px;
       border: 1px solid #333;
     }
+
+    .content-section {
+      margin-bottom: 24px;
+    }
+
+    .content-section h2 {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #fff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 5px;
+    }
+
+    .highlight-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #f39c12;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .highlight-box h3 {
+      font-size: 1.1rem;
+      margin-top: 0;
+      color: #ddd;
+      font-weight: bold;
+    }
   </style>
 </head>
 
 <body>
   <div class="page">
 
-    <!-- TOPBAR -->
     <div class="topbar">
       <div class="inner">
         <div class="brand">
-          <div class="title">Korzika motor tura</div>
-          <div class="subtitle">DAY02 1. Les Chalets De Lozzi</div>
+          <div class="title">Korzika motor túra</div>
+          <div class="subtitle">Saint-Florent öböl</div>
         </div>
         <div class="btnrow">
           <a class="btn" href="../index.html">🏠 Főoldal</a>
@@ -46,27 +71,34 @@
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="container">
       <div class="card">
 
-        <div class="h1">1. Les Chalets De Lozzi</div>
-        <div class="small">42.774262, 9.476360</div>
+        <div class="h1">Saint-Florent öböl</div>
 
-        <!-- HERO IMAGE -->
-        <img class="hero-image" src="images/DAY02_06_Saint_Florent_obol.jpg" alt="Les Chalets De Lozzi">
+        <img class="hero-image" src="images/DAY02_06_Saint_Florent_obol.jpg" alt="Saint-Florent öböl">
 
-        <div class="p">
-          A Fertő-tó Európa egyik legkülönlegesebb tava, a kontinens legnyugatibb sztyepptava.
-          Sekély vize és nádasai UNESCO Világörökségi területet alkotnak, az átlagmélység kb egy
-          méter körüli. Több mint 300 madárfaj figyelhető meg, a magyar oldalon a Fertő Hanság
-          Nemzeti Park, az osztrák oldalon a Neusiedler See Seewinkel Nemzeti Park óvja a területet.
+        <div class="highlight-box">
+          <strong>A tengerparti nyugalom és a jachtok világa.</strong> A Saint-Florent öböl a sziget egyik legstílusosabb pontja, ahol a hegyvidéki utak után a tenger morajlása és a kikötői nyüzsgés veszi át az irányt. Tökéletes helyszín egy kiszakadáshoz, ahol a motoros csizmát egy kávé erejéig pihentethetjük a rakparton.
         </div>
 
-        <!-- ACTION BUTTONS -->
+        <div class="content-section">
+          <h2>Kikötői atmoszféra és stílus</h2>
+          <p class="p">A citadella meglátogatása után ez a pont kínálja a leglogikusabb leereszkedést a vízpartra. Saint-Florent-t gyakran emlegetik a „korzikai Saint-Tropez-ként” a kikötőben ringatózó elegáns jachtok és a pálmafás sétány miatt. Itt a panoráma már nem a magaslati perspektíváról, hanem a közvetlen tengeri élményről és a színes házfalak tükröződéséről szól.</p>
+        </div>
+
+        <div class="content-section">
+          <h2>Frissítő ritmusváltás</h2>
+          <p class="p">Hosszabb motorozás után ez a megálló ideális a regenerálódásra. A kikötő mentén sorakozó teraszok és kávézók tökéletes kulisszát adnak egy rövid pihenőhöz, mielőtt a túra folytatódna. A sós tengeri levegő és a kikötői zsongás segít átállni a belső utak vadságáról a tengerparti szakaszok nyugodtabb tempójára.</p>
+        </div>
+
+        <div class="highlight-box">
+          <h3>🔦 Megfigyelni való</h3>
+          <p class="p">Érdemes megkeresni a legjobb fotópontokat a kikötő végében, ahonnan egyszerre látszanak a modern hajók és a háttérben magasodó ódon városfalak. Figyelje meg a víz kristálytiszta színét is, amely az öböl védett fekvése miatt itt különösen látványos.</p>
+        </div>
+
         <div class="poibtns">
-          <a class="btn btn-blue" href="https://maps.google.com/?q=42.774262,9.476360" target="_blank" rel="noopener"> Navigacio
-          </a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.774262,9.476360" target="_blank" rel="noopener">🧭 Navigáció</a>
           <a class="btn btn-accent" href="index.html">📋 Lista nézet</a>
         </div>
 
@@ -74,7 +106,6 @@
           <a class="btn" href="../index.html">🏠 Főoldal</a>
         </div>
 
-        <!-- MAP – LEGALUL -->
         <div id="map"></div>
 
       </div>
@@ -85,13 +116,13 @@
   <script>
     /* ===== POI ===== */
     const POI = {
-      name: "Les Chalets De Lozzi",
-      lat: 42.346651,
-      lon: 9.013368
+      name: "Saint-Florent öböl",
+      lat: 42.679818,
+      lon: 9.302238
     };
 
     /* ===== MAP INIT ===== */
-    const map = L.map("map").setView([POI.lat, POI.lon], 13);
+    const map = L.map("map").setView([POI.lat, POI.lon], 15);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
@@ -101,7 +132,8 @@
     /* ===== POI MARKER ===== */
     L.marker([POI.lat, POI.lon])
       .addTo(map)
-      .bindPopup(`<b>${POI.name}</b>`);
+      .bindPopup(`<b>${POI.name}</b>`)
+      .openPopup();
 
     /* ===== USER POSITION – PIROS ===== */
     let userMarker = null;
