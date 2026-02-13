@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAY04 lista nézet</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Leaflet (CSAK HOZZÁADVA) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- DAY04 háttér -->
+  <style>
+    body.day04 {
+      background: url("images/DAY04_01_Lac_de_Calacuccia.jpg") center / cover no-repeat fixed;
+    }
+
+    /* szövegdoboz háttér picit sötétebb */
+    .card{
+      background: rgba(0,0,0,0.72);
+    }
+
+    /* --- SZÁMOZOTT KÉK POI JELÖLŐ (CSAK HOZZÁADVA) --- */
+    .poi-numbered-icon {
+      background: transparent;
+      border: none;
+    }
+    .poi-numbered-icon svg {
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="day04">
+<div class="page">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="inner">
+      <div class="brand">
+        <div class="title">Korzika motor tura</div>
+        <div class="subtitle">DAY04 lista nézet</div>
+      </div>
+      <div class="btnrow">
+        <a class="btn" href="../index.html">🏠 Főoldal</a>
+        <button class="btn btn-accent" id="btnNearest">📌 Legközelebbi pont</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="container">
+
+    <div class="card">
+      <div class="h1">DAY04: Niolo és Asco völgy, Scala di Santa Regina, Morosaglia, Ponte Leccia, Haut-Asco</div>
+      <div class="small">
+        Ez egy fantasztikus motoros útvonal, amely Korzika két legvadabb és legimpozánsabb völgyét, a Niolo-t és az Asco-völgyet köti össze a látványos Scala di Santa Regina kanyonon keresztül. Az útvonalad a magashegyi hágóktól (Col de Vergio környéke) levisz a folyóvölgybe, majd újra felkapaszkodik Korzika legmagasabb csúcsának lábához.<br>A mérés automatikusan indul oldalnyitáskor, majd 5 mp múlva frissít.<br>A távolságok minden célpontnál frissülnek, és az oldal a legvalószínűbb következő pontra ugrik.
+      </div>
+      <div class="notice" id="gpsNotice" style="display:none">
+        A böngésző nem tudott helyet kérni. Ellenőrizd a helymeghatározási engedélyt (Telefon: beállítások → Böngésző → Hely).
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+
+    <div class="grid" id="poiList">
+
+      <!-- P1 -->
+      <div class="poi" id="p1">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">1. Lac de Calacuccia (Calacuccia-tó és Gát)</div>
+            <div class="coords">42.334361, 9.019304</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p1"></span><span data-badgetext="p1">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p1">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Ez a mesterséges tó a Niolo-medence szívében található, 793 méteres tengerszint feletti magasságban. A tavat létrehozó gátat 1965 és 1968 között építették a Golo folyón, hogy villamos energiával lássák el a szigetet és szabályozzák a vízellátást. A duzzasztógát 72 méter magas és 265 méter hosszú a koronájánál, a tó vízfelülete pedig 130 hektárt foglal el. A tározó maximális kapacitása eléri a 25 millió köbmétert, és kulcsszerepet játszik Korzika nyári vízigényének kielégítésében, különösen a keleti partvidék mezőgazdasága számára. A víz alatti területen egykori legelők és kisebb épületek maradványai fekszenek, amelyek alacsony vízállásnál néha láthatóvá válnak.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p1.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.334361,9.019304" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_01_Lac_de_Calacuccia.jpg" alt="Lac de Calacuccia (Calacuccia-tó és Gát)">
+      </div>
+
+      <!-- P2 -->
+      <div class="poi" id="p2">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">2. Scala di Santa Regina (Sziklaszoros)</div>
+            <div class="coords">42.358310, 9.058570</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p2"></span><span data-badgetext="p2">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p2">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Ez a szurdokvölgy Korzika egyik legvadabb és legtechnikásabb motoros útszakasza, ahol a D84-es út a Golo folyó által vájt gránitfalakba kapaszkodik. Az út építése a 19. század végén zajlott, előtte csak egy veszélyes öszvérösvény biztosította a kapcsolatot a Niolo és a síkság között. A sziklafalak merőlegesen zuhannak a mélybe, a völgy neve (&quot;Szent Királynő Lépcsője&quot;) a sziklaalakzatok lépcsőzetes elrendezésére és egy Szűz Máriához kötődő legendára utal. Az útburkolat itt gyakran szűk, és a beláthatatlan kanyarok miatt fokozott figyelmet igényel, különösen a szembejövő forgalom miatt. Ez az egyetlen közúti kijárat a Niolo-medencéből kelet felé, így stratégiai jelentősége a történelem során a genovai megszállás alatt is kiemelkedő volt.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p2.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.35831,9.05857" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_02_Scala_di_Santa_Regina.jpg" alt="Scala di Santa Regina (Sziklaszoros)">
+      </div>
+
+      <!-- P3 -->
+      <div class="poi" id="p3">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">3. Morosaglia (Castagniccia kapuja)</div>
+            <div class="coords">42.437817, 9.309028</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p3"></span><span data-badgetext="p3">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p3">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Ponte Lecciától keletre, a hegyek felé indulva éred el Morosaglia környékét, amely már a Castagniccia (Gesztenyevidék) régióhoz tartozik. Ez a terület Pasquale Paoli, a &quot;korzikai nemzet atyjának&quot; szülőhelye, aki itt született 1725-ben. A falu múzeuma az ő életét és a független Korzika rövid időszakát mutatja be, ezt meg is nézzük most. A régió sűrű gesztenyeerdőiről kapta nevét, amelyek évszázadokon át a lakosság fő élelemforrását biztosították (gesztenyeliszt). Az utak itt keskenyek és kanyargósak, igazi motoros paradicsom.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p3.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.437817,9.309028" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_03_Morosaglia.jpg" alt="Morosaglia (Castagniccia kapuja)">
+      </div>
+
+      <!-- P4 -->
+      <div class="poi" id="p4">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">4. Ponte Leccia (Csomópont)</div>
+            <div class="coords">42.462267, 9.206204</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p4"></span><span data-badgetext="p4">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p4">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Bár építészetileg kevésbé látványos, Ponte Leccia Korzika legfontosabb közlekedési csomópontja a sziget belső részén (&quot;Korzika köldöke&quot;). Itt találkozik a T20-as (Bastia-Ajaccio) és a T30-as (Calvi felé) főút, valamint a sziget vasúthálózata is itt ágazik el három irányba. A település mindössze 193 méter magasan fekszik, itt a Golo folyó völgye kiszélesedik, és a hőmérséklet nyáron gyakran eléri a 40 Celsius-fokot, mivel a környező hegyek megrekedtetik a hőt. A település híres a &quot;Ponte Leccia-i hídról&quot; (Pont de Ponte Leccia), amely egy genovai stílusú, de modernizált híd a Golo felett. Gazdasági szempontból ez a régió kereskedelmi központja, itt található az egyetlen nagyobb szupermarket és benzinkút a környező völgyek ellátására.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p4.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.462267,9.206204" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_04_Ponte_Leccia_Csomopont.jpg" alt="Ponte Leccia (Csomópont)">
+      </div>
+
+      <!-- P5 -->
+      <div class="poi" id="p5">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">5. Vallée de l&#x27;Asco (Asco-völgy bejárata)</div>
+            <div class="coords">42.477176, 9.185817</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p5"></span><span data-badgetext="p5">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p5">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Ponte Lecciától északra fordulva a D147-es útra térsz rá, amely az Asco-folyó völgyébe vezet. Ez a völgy geológiailag eltér a Niolo-tól; a kőzetek itt sötétebb vulkanikus eredetűek (riolit és ignimbrit) a gránit mellett. A völgy bejáratánál az út szélesebb, de ahogy haladsz befelé, drasztikusan összeszűkül. Az Asco folyó hossza 34 km, és közvetlenül a Monte Cinto masszívumából ered, ezért vize még nyáron is rendkívül hideg. A völgy növényzete a tengerszint feletti magasság emelkedésével gyorsan változik a mediterrán cserjéstől a magashegyi fenyvesekig.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p5.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.477176,9.185817" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_05_Vallee_de_l_Asco_bejarat.jpg" alt="Vallée de l&#x27;Asco (Asco-völgy bejárata)">
+      </div>
+
+      <!-- P6 -->
+      <div class="poi" id="p6">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">6. Gorges de l&#x27;Asco - Alsó szakasz</div>
+            <div class="coords">42.465000, 9.102000</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p6"></span><span data-badgetext="p6">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p6">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Moltifao felé közeledve a szurdok újra összeszűkül, de itt a sziklafalak már kevésbé magasak, mint fentebb. Az út követi a folyó kanyarulatait, a növényzet pedig egyre inkább mediterrán jellegűvé válik: megjelennek az olajfák és a leanderek a folyóparton. Ez a szakasz motorozás szempontjából gyorsabb, jobban belátható kanyarokkal, mint a felső rész. A folyó sodrása itt lassul, medre kiszélesedik, és nagy hordalékpadokat épít.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p6.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.465,9.102" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_06_Gorges_de_lAsco_Also_szakasz.jpg" alt="Gorges de l&#x27;Asco - Alsó szakasz">
+      </div>
+
+      <!-- P7 -->
+      <div class="poi" id="p7">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">7. Asco (Falu)</div>
+            <div class="coords">42.452898, 9.032729</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p7"></span><span data-badgetext="p7">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p7">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Asco falu 600 méteres magasságban fekszik, és sokáig elszigeteltségben élt, mivel a völgybe vezető utat csak a 20. században építették ki teljesen. A település híres méztermeléséről; a korzikai méz (Mele di Corsica) oltalom alatt álló eredetmegjelölésű (AOP) termék, az itteni gesztenyeméz különösen karakteres ízű. A falu építészete robusztus, a házak vastag gránitfalai a kemény telek ellen nyújtanak védelmet. Asco történelmileg &quot;pásztorfalu&quot; volt, a lakosság nagy része a nyarakat a hegyekben (transhumance), a teleket a faluban töltötte. A lakosság száma ma már alig haladja meg a 100 főt, de a turizmus miatt a nyári szezonban élénk a forgalom.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p7.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.452898,9.032729" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_07_Asco_Falu.jpg" alt="Asco (Falu)">
+      </div>
+
+      <!-- P8 -->
+      <div class="poi" id="p8">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">8. Pont Génois d&#x27;Asco (Genovai híd Asco alatt)</div>
+            <div class="coords">42.446819, 9.031483</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p8"></span><span data-badgetext="p8">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p8">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Asco falu alatt, a folyó felett ível át ez a középkori híd, amely a Genovai Köztársaság uralma alatt (15-16. század) épült. A híd jellegzetes &quot;szamárhátív&quot; alakú, kőből épült szerkezet, amelyet úgy terveztek, hogy ellenálljon a folyó hirtelen áradásainak. A genovaiak több mint 100 hasonló hidat építettek Korzikán a kereskedelem és a katonai mozgások elősegítésére. Ma már csak gyalogos forgalomra használják, de kiváló fotótéma és történelmi emlék. Közvetlenül a híd alatt népszerű fürdőhely található, ahol a víz kristálytiszta és türkizkék árnyalatú.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p8.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.4468194629944,9.031482737202339" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_08_Pont_Genois_dAsco_Genovai_hid_Asco_alatt.jpg" alt="Pont Génois d&#x27;Asco (Genovai híd Asco alatt)">
+      </div>
+
+      <!-- P9 -->
+      <div class="poi" id="p9">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">9. Pont de Roggia (Roggia-híd)</div>
+            <div class="coords">42.437039, 8.995992</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p9"></span><span data-badgetext="p9">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p9">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Egy régi kőhíd, amely az Asco folyó egyik mellékága felett ível át, nem messze a főúttól. Bár kevésbé ismert, mint a genovai hidak, ez a híd fontos szerepet játszott a pásztorok közlekedésében a legelők felé. A híd alatt a víz sebessége felgyorsul, és kisebb vízeséseket alkot a kövek között. A környék növényzetében megjelenik a paratölgy és a magyaltölgy, jelezve, hogy alacsonyabb tengerszint feletti magasságba értél.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p9.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.437039,8.995992" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_09_Pont_de_Roggia_Roggia_hid.jpg" alt="Pont de Roggia (Roggia-híd)">
+      </div>
+
+      <!-- P10 -->
+      <div class="poi" id="p10">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">10. Maison du Mouflon (Muflon-ház)</div>
+            <div class="coords">42.424618, 8.965808</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p10"></span><span data-badgetext="p10">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p10">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Asco faluban található ez az ökomúzeum, amely a korzikai muflonok életmódját és védelmét mutatja be. A múzeum statisztikái szerint az 1970-es években a muflonok majdnem kipusztultak, de a védelmi programoknak köszönhetően állományuk mára stabilizálódott. Az épület maga is érdekes, hagyományos korzikai kőépítészetet tükröz. A kiállítás bemutatja a völgy geológiáját és növényvilágát is, jó áttekintést adva arról a tájról, amin éppen átmotorozol.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p10.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.424618,8.965808" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_10_Maison_du_Mouflon_Muflon_haz.jpg" alt="Maison du Mouflon (Muflon-ház)">
+      </div>
+
+      <!-- P11 -->
+      <div class="poi" id="p11">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">11. Station du Haut-Asco (Haut-Asco síállomás és Stagnu-fennsík)</div>
+            <div class="coords">42.403298, 8.921027</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p11"></span><span data-badgetext="p11">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p11">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Az út vége és az útvonalad végpontja, amely 1450 méteres magasságban található a Stagnu-fennsíkon. Ez volt Korzika egyik legendás síközpontja, amely az 1980-as években bezárt, majd 2016-ban újranyitott modernizált felvonókkal. Innen indul a legnépszerűbb túraútvonal a Monte Cinto csúcsára (2706 m), amely a sziget legmagasabb pontja. A helyszín a GR20 túraútvonal egyik kulcsfontosságú állomása; 2015-ben a hírhedt Cirque de la Solitude lezárása után a GR20 nyomvonalát erre terelték át. A táj itt már alpesi jellegű, sziklás csúcsokkal, ritkás növényzettel és gyakran még nyár elején is hófoltokkal.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p11.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.403298,8.921027" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY04_11_Station_du_Haut_Asco_Haut_Asco_siallomas_es_Stagnu_fennsik.jpg" alt="Station du Haut-Asco (Haut-Asco síállomás és Stagnu-fennsík)">
+      </div>
+
+    </div>
+
+    <!-- TÖRÖLVE: Képek mappája: day04/images ... -->
+
+    <!-- TÉRKÉP AZ OLDAL ALJÁN (CSAK HOZZÁADVA) -->
+    <div style="height:16px"></div>
+    <div class="card">
+      <div class="h1">Térkép</div>
+      <div id="map" style="width:100%; height:360px; border-radius:12px;"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const POIS = [
+  {id:"p1",lat:42.334361,lon:9.019304},
+  {id:"p2",lat:42.35831,lon:9.05857},
+  {id:"p3",lat:42.437817,lon:9.309028},
+  {id:"p4",lat:42.462267,lon:9.206204},
+  {id:"p5",lat:42.477176,lon:9.185817},
+  {id:"p6",lat:42.465,lon:9.102},
+  {id:"p7",lat:42.452898,lon:9.032729},
+  {id:"p8",lat:42.4468194629944,lon:9.031482737202339},
+  {id:"p9",lat:42.437039,lon:8.995992},
+  {id:"p10",lat:42.424618,lon:8.965808},
+  {id:"p11",lat:42.403298,lon:8.921027}
+];
+
+let sample1 = null;
+let t2 = null;
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat/2)**2 +
+    Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function setBadge(id, txt){
+  const el = document.querySelector(`[data-badgetext="${id}"]`);
+  if(el) el.textContent = txt;
+}
+
+function setDist(id, km){
+  const el = document.querySelector(`[data-dist="${id}"]`);
+  if(el) el.textContent = `távolság: ${km.toFixed(2)} km`;
+}
+
+function computeDistances(pos){
+  const out = {};
+  POIS.forEach(p=>{
+    out[p.id] = haversineKm(pos.lat, pos.lon, p.lat, p.lon);
+  });
+  return out;
+}
+
+function scrollToPoi(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+function pickTarget(d1, d2, moveKm){
+  if(moveKm < 0.03) {
+    let best = null;
+    for(const id in d2){
+      if(!best || d2[id] < best.km) best = {id, km:d2[id]};
+    }
+    return best ? best.id : null;
+  }
+
+  let best = null;
+  for(const id in d2){
+    const delta = (d1 && d1[id] != null) ? (d1[id] - d2[id]) : 0;
+    const score = delta;
+    if(!best) best = {id, score, km:d2[id]};
+    else {
+      if(score > best.score + 1e-9) best = {id, score, km:d2[id]};
+      else if(Math.abs(score - best.score) < 1e-9 && d2[id] < best.km) best = {id, score, km:d2[id]};
+    }
+  }
+  return best ? best.id : null;
+}
+
+function updateUI(distances){
+  for(const id in distances){
+    setDist(id, distances[id]);
+    setBadge(id, "mérve");
+  }
+}
+
+function getPosOnce(){
+  return new Promise((resolve, reject)=>{
+    if(!navigator.geolocation){
+      reject(new Error("Geolocation not supported"));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      p => resolve({lat:p.coords.latitude, lon:p.coords.longitude}),
+      e => reject(e),
+      { enableHighAccuracy:true, maximumAge:0, timeout:12000 }
+    );
+  });
+}
+
+async function runMeasureCycle(scrollAfter=true){
+  if(t2) { clearTimeout(t2); t2 = null; }
+  document.getElementById("gpsNotice").style.display = "none";
+
+  try{
+    const posA = await getPosOnce();
+    const dA = computeDistances(posA);
+    updateUI(dA);
+    sample1 = {pos:posA, d:dA};
+
+    if(scrollAfter){
+      const nearestA = Object.keys(dA).reduce((best,id)=> !best || dA[id] < dA[best] ? id : best, null);
+      if(nearestA) scrollToPoi(nearestA);
+    }
+
+    t2 = setTimeout(async ()=>{
+      try{
+        const posB = await getPosOnce();
+        const dB = computeDistances(posB);
+        updateUI(dB);
+
+        const moveKm = haversineKm(sample1.pos.lat, sample1.pos.lon, posB.lat, posB.lon);
+        const target = pickTarget(sample1.d, dB, moveKm);
+        if(target) scrollToPoi(target);
+
+      } catch(err2){
+        document.getElementById("gpsNotice").style.display = "block";
+      }
+    }, 5000);
+
+  } catch(err){
+    document.getElementById("gpsNotice").style.display = "block";
+  }
+}
+
+runMeasureCycle(true);
+
+document.getElementById("btnNearest").addEventListener("click", ()=>{
+  runMeasureCycle(true);
+});
+
+/* TÉRKÉP LOGIKA (CSAK HOZZÁADVA) + SZÁMOZOTT KÉK POI-JELÖLŐK + PIROS SAJÁT HELY */
+let map;
+
+function blueNumberIcon(n) {
+  const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="46" viewBox="0 0 30 46">
+  <path d="M15 0C8 0 2.5 5.5 2.5 12.5C2.5 23 15 46 15 46C15 46 27.5 23 27.5 12.5C27.5 5.5 22 0 15 0Z"
+        fill="#2A81CB" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>
+  <text x="15" y="18" text-anchor="middle"
+        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+        font-size="13" font-weight="800"
+        fill="#ff2b2b" stroke="#ffffff" stroke-width="2" paint-order="stroke">${n}</text>
+</svg>`;
+
+  return L.divIcon({
+    className: "poi-numbered-icon",
+    html: svg,
+    iconSize: [30, 46],
+    iconAnchor: [15, 46],
+    popupAnchor: [0, -38]
+  });
+}
+
+function getPoiTitle(id) {
+  const el = document.querySelector(`#${id} .poi-title`);
+  return el ? el.textContent.trim() : id;
+}
+
+function initMap(userPos) {
+  map = L.map("map");
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap"
+  }).addTo(map);
+
+  const bounds = [];
+
+  // POI-k: kék pin + sorszám
+  POIS.forEach(p => {
+    const num = parseInt(String(p.id).replace("p", ""), 10);
+    const safeNum = Number.isFinite(num) ? num : "";
+    const title = getPoiTitle(p.id);
+
+    L.marker([p.lat, p.lon], { icon: blueNumberIcon(safeNum) })
+      .addTo(map)
+      .bindPopup(title);
+
+    bounds.push([p.lat, p.lon]);
+  });
+
+  // Saját helyzet piros jelölővel
+  if (userPos) {
+    const redIcon = L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    L.marker([userPos.lat, userPos.lon], { icon: redIcon })
+      .addTo(map)
+      .bindPopup("📍 Itt vagyok");
+
+    bounds.push([userPos.lat, userPos.lon]);
+  }
+
+  if (bounds.length) {
+    map.fitBounds(bounds, { padding: [30, 30] });
+  }
+}
+
+getPosOnce()
+  .then(pos => initMap(pos))
+  .catch(() => initMap(null));
+</script>
+
+</body>
+</html>

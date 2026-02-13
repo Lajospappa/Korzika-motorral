@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAY05 lista nézet</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Leaflet (CSAK HOZZÁADVA) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- DAY05 háttér -->
+  <style>
+    body.day05 {
+      background: url("images/DAY05_01_Defile_de_l_Inzecca.jpg") center / cover no-repeat fixed;
+    }
+
+    /* szövegdoboz háttér picit sötétebb */
+    .card{
+      background: rgba(0,0,0,0.72);
+    }
+
+    /* --- SZÁMOZOTT KÉK POI JELÖLŐ (CSAK HOZZÁADVA) --- */
+    .poi-numbered-icon {
+      background: transparent;
+      border: none;
+    }
+    .poi-numbered-icon svg {
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="day05">
+<div class="page">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="inner">
+      <div class="brand">
+        <div class="title">Korzika motor tura</div>
+        <div class="subtitle">DAY05 lista nézet</div>
+      </div>
+      <div class="btnrow">
+        <a class="btn" href="../index.html">🏠 Főoldal</a>
+        <button class="btn btn-accent" id="btnNearest">📌 Legközelebbi pont</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="container">
+
+    <div class="card">
+      <div class="h1">DAY05: Inzecca szurdok, Sampolo tározó, keleti síkság, Solenzara völgye, Bavella-tűk, Zonza</div>
+      <div class="small">
+        Ez a nap a hegyvidéki szurdokok és tározók világából levisz a keleti part síkjára, majd visszakanyarodik a D268-as úton a legendás Bavella gránitcsúcsaihoz és az Alta Rocca falvaiba.<br>A mérés automatikusan indul oldalnyitáskor, majd 5 mp múlva frissít.<br>A távolságok minden célpontnál frissülnek, és az oldal a legvalószínűbb következő pontra ugrik.
+      </div>
+      <div class="notice" id="gpsNotice" style="display:none">
+        A böngésző nem tudott helyet kérni. Ellenőrizd a helymeghatározási engedélyt (Telefon: beállítások → Böngésző → Hely).
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+
+    <div class="grid" id="poiList">
+
+
+      <!-- P1 -->
+      <div class="poi" id="p1">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">1. Défilé de l’Inzecca (Szurdok)</div>
+            <div class="coords">42.0968250849991, 9.305939548145744</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p1"></span><span data-badgetext="p1">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p1">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Ghisoni után a Fium’Orbu folyó vájta szűk, vadregényes szurdok. Az út közvetlenül a folyó és a sziklafalak között kanyarog, zöldes vizű természetes medencékkel. A Défilé de l’Inzecca szurdokot a Fium’Orbu folyó alakította ki, amely a Monte Renoso masszívumból ered és 45,7 kilométer hosszan folyik a Földközi-tengerig. Ez a szurdok a szomszédos Défilé des Strette mellett mintegy 650 méteres tengerszint feletti magasságban található és körülbelül 4 kilométer hosszúságú. A kanyon szerpentin képződményekbe vájódott, amelyek olívazöld színű, pikkelyes megjelenésű kőzetek. A szerpentin egy metamorf kőzet, amely a Föld köpenyéből származó ultrabázikus kőzet hidratációjából és metamorf átalakulásából keletkezik. A terület Natura 2000 védett övezet, köszönhetően egyedi geológiai és flórabeli jellemzőinek, amelyek Korzikán vagy Franciaországban máshol nem ismétlődnek. A Fium’Orbu folyót kétszer duzzasztották fel öntözés és vízerőmű céljából, a Défilé de l’Inzecca a Sampolo tározó és a Trevadine gát között helyezkedik el. A szurdok meredek esésekkel és szűk átjárókkal rendelkezik, Korzika egyik legimpozánsabb kanyonja, jelentős eróziós mélységekkel. Geológiailag a kristályos Korzika részét képezi, ahol 300 millió évvel ezelőtti variszkuszi orogénia során keletkezett gránit masszívumok dominálnak. A folyó gyors vize évezredek alatt erodálta a szurdokot, zöldes árnyalatú természetes medencéket létrehozva a környező kőzetek ásványi tartalma miatt. A biodiverzitás magában foglalja a szerpentin talajokhoz alkalmazkodott endemikus korzikai flórát, amelyek tápanyagban szegények és magnéziumban gazdagok.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p1.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.0968250849991,9.305939548145744" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_01_Defile_de_l_Inzecca.jpg" alt="Défilé de l’Inzecca (Szurdok)">
+      </div>
+
+      <!-- P2 -->
+      <div class="poi" id="p2">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">2. Lac de Sampolo (Tó)</div>
+            <div class="coords">42.095575, 9.281474</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p2"></span><span data-badgetext="p2">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p2">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Egy kisebb mesterséges tó a szurdokrendszer alsó szakaszán (Défilé des Strette). A táj itt is lenyűgöző, az út néhol egészen szűk. A Lac de Sampolo egy mesterséges tározó, amelyet a Fium’Orbu folyón épített Sampolo gát hozott létre, a folyó hossza 45,7 kilométer. A gátat vízerőmű és öntözési célokra építették, vizet duzzasztva a Défilé de l’Inzecca szurdokrendszerben. A tó vízgyűjtője Korzika kristályos geológiai zónájának része, variszkuszi időszakból származó gránit képződményekkel. A korzikai hegyi tavak tanulmányai, beleértve hasonló magaslatiakat, mutatják a hőmérséklet és oxigén profilok mélység szerinti változását, némely tavak 3 méteres mélységet meghaladóan. Korzikán körülbelül 40 hegyi tó található, közülük 15 nagyobb 0,5 hektárnál, főleg 1700 méteres magasság felett. A tározó körül őszi színű juharfák vannak, és visszatartó medenceként szolgál a Fiumorbo régióban. Geológiailag a herciniai alapzatban fekszik, kalc-alkáli granitoidokból állva. A tó létrehozása megváltoztatta a helyi hidrológiát, hozzájárulva a folyó áramlásának szabályozásához. A tó körül a biodiverzitás a Défilé des Strette megőrzött környezetéhez alkalmazkodott fajokat tartalmazza. A területet 1970-ben vizsgálták limnológiai adatok szempontjából, beleértve a topográfiai magasságok árnyékoló hatásait.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p2.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.095575,9.281474" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_02_Lac_de_Sampolo.jpg" alt="Lac de Sampolo (Tó)">
+      </div>
+
+      <!-- P3 -->
+      <div class="poi" id="p3">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">3. Ghisonaccia / T10-es út (Síkvidék)</div>
+            <div class="coords">41.910946, 9.388454</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p3"></span><span data-badgetext="p3">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p3">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A hegyekből kiérve az útvonal a keleti síkságon, a T10-es főúton halad dél felé. Ez egy gyorsabb, egyenesebb szakasz a tengerpart közelében, pihenőt engedve a sok kanyar után. Ghisonaccia 42° északi szélességen és 9,4° keleti hosszúságon fekszik, 0 méteres tengerszint feletti magassággal. A városnak 3515 lakosa van, és Korzika keleti part menti síkságán helyezkedik el. A T10-es út a kelet-parti sík terepen halad, ellentétben a sziget belső hegyvidékével, ahol a csúcsok meghaladják a 2000 métert. Ez a terület a Costa Serena része, mezőgazdasági földekkel és szőlőültetvényekkel üledékes talajokon. A keleti síkság Bastia-tól Solenzaráig terjed, a palás lánc lábánál elhelyezkedő újabb üledékes kőzetekből állva. Geológiailag az alpesi Korzika része, 60-250 millió évvel ezelőtti ütközésekből származó deformált kőzetekkel. A régió tartalmazza a Pinia erdőt, Korzika legnagyobb tengeri fenyőerdőjét, jelentős hektárokon terülve. Ajaccio-tól 56 kilométerre, Bastia-tól 76 kilométerre fekszik. A sík földrajz lehetővé tette az egyenes utak, mint a T10-es építését, segítve az 1960-as évek mezőgazdasági fejlődését. A biodiverzitás a közeli tavak (stagni) és maquis cserjések fajait tartalmazza.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p3.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=41.910946,9.388454" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_03_Ghisonaccia_T10.jpg" alt="Ghisonaccia / T10-es út (Síkvidék)">
+      </div>
+
+      <!-- P4 -->
+      <div class="poi" id="p4">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">4. Solenzara (Tengerparti város)</div>
+            <div class="coords">41.858166, 9.402219</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p4"></span><span data-badgetext="p4">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p4">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Kikötőváros, ahol az útvonalunk elhagyja a partot és a D268-as úton ismét a hegyek (Bavella) felé fordul. Ideális hely tankolásra vagy egy kávéra a tengerparton. Solenzara a keleti üledékes síkság déli végén fekszik, Bastia-tól délre nyúlva, újabb üledékes kőzetekkel. A város a palás lánc lábánál helyezkedik el, az alpesi Korzika geológiai egységének része. Történelmileg egy genovai citadellából fejlődött ki, az 1960-as években virágzó mezőgazdasági településsé vált. A terület sík topográfiával rendelkezik, nagy part menti síkságokkal, amelyeket folyók, mint a Solenzara és a Tavignano alakítottak. Tengerszint tanulmányok mutatják a relatív stabilitást a késő neolitikum óta, izosztatikus változásokkal. A Solenzara folyó 22 kilométer hosszú, 1145 méteres magasságból eredve a Tirén-tengerbe ömlik. Geológiailag tartalmazza az eocén flysch-t, egy detritikus üledékes egységet. A Fautea-Solenzara szeparátum dextrális transzpresszív nyírászónákat mutat, amelyek 360 millió évvel ezelőtt aktívak voltak. A biodiverzitás a közeli regionális természeti park fajait tartalmazza. A kikötő támogatja a tengeri tevékenységeket egy 1047 kilométeres partvidékű régióban.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p4.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=41.858166,9.402219" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_04_Solenzara.jpg" alt="Solenzara (Tengerparti város)">
+      </div>
+
+      <!-- P5 -->
+      <div class="poi" id="p5">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">5. Gorges de la Solenzara (Folyóvölgy)</div>
+            <div class="coords">41.833717, 9.313208</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p5"></span><span data-badgetext="p5">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p5">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A Solenzara folyó völgye híres smaragdzöld vizéről és természetes úszómedencéiről. Az út (D268) hosszan kíséri a folyót, remek fürdőzési lehetőségekkel. A Solenzara folyó 22 kilométer hosszú, 1145 méteres magasságból ered a Bavella-hágó északi részén, és a Tirén-tengerbe ömlik. A szurdokok a keleti üledékes síkságban vannak, a palás lánc lábánál elhelyezkedő újabb üledékes kőzetekkel. A völgy herciniai alapzatot tartalmaz kalc-alkáli granitoidokkal, amelyeket alpesi egységek, mint az eocén flysch fednek. A biodiverzitás endemikus faunát és flórát tartalmaz a Korzika Természeti Regionális Parkjának megőrzött környezetében. A folyó három fő folyó övezetét vezeti le: Solenzara, Tavignanu és Golo. Geológiai komplexitása variszkuszi metamorf kőzeteket és neoproterozoikus doméneket tartalmaz. A szurdokok smaragdzöld vize gránit erózió miatti ásványi szuszpenziókból ered. A terület vízgyűjtője 1500 négyzetkilométeres, hegyvidéki belső területtel és part menti síkságokkal. A közeli termo-minerális források geokémiai sokféleséget mutatnak a multi-kompozit geológiából. A völgy természetes medencéket kínál, amelyeket évezredek eróziós folyamatai alakítottak ki.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p5.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=41.833717,9.313208" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_05_Gorges_de_la_Solenzara.jpg" alt="Gorges de la Solenzara (Folyóvölgy)">
+      </div>
+
+      <!-- P6 -->
+      <div class="poi" id="p6">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">6. Col de Bavella (Hágó és Aiguilles)</div>
+            <div class="coords">41.795841, 9.224671</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p6"></span><span data-badgetext="p6">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p6">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A &quot;Bavella-tűk&quot; (Aiguilles de Bavella) lábánál fekvő 1218 méteres hágó. Korzika egyik legikonikusabb és legszebb helyszíne, drámai sziklaformációkkal. Itt található a Havas Boldogasszony (Notre-Dame des Neiges) szobra is. A Col de Bavella 1218 méteres magasságban fekszik, összekötve az Alta Rocca-t a keleti parttal. A Bavella-tűk vörös gránit csúcsok, szürke, okker és arany árnyalatokkal. A masszívum hét Asinau tornyot tartalmaz, 1588 métertől (Punta di l’Acellu) 1855 méterig (Punta Alta). A Monte Incudine 2134 méteres magassággal dominál. Geológiailag a variszkuszi orogénia gránitjának eróziójából keletkezett. A terület Laricio fenyőerdőt tartalmaz, az 1960-as évek tűzvészei utáni újraerdősítéssel, beleértve cédrusokat és gesztenyefákat. A hágó a Regionális Természeti Parkban van, 500 méteres magasságkülönbségekkel a túrákon. A Trou de la Bombe természetes eróziós képződmény a gránitban. A biodiverzitás endemikus fajokat tartalmaz a megőrzött magashegyi környezetben. A GR20 ösvény a közelben halad, alpesi variánssal 1662 méteres Bocca di u Pargulu-ig.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p6.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=41.795841,9.224671" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_06_Col_de_Bavella.jpg" alt="Col de Bavella (Hágó és Aiguilles)">
+      </div>
+
+      <!-- P7 -->
+      <div class="poi" id="p7">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">7. Zonza (Érkezés)</div>
+            <div class="coords">41.75096957008441, 9.171739950634105</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p7"></span><span data-badgetext="p7">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p7">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A Bavella hágóról való leereszkedés után a túra Zonzában, az Alta Rocca régió központi településén ér véget. Hangulatos kőházak és remek kilátás a völgyre. Zonza a Barocagio-Marghese hegyvonulatban fekszik, 20 kilométerre délre az Incudine masszívumtól. A terület variszkuszi Korzika része, herciniai alapzattal és mezozoikus-tercier fedővel. A közeli Zicavo metamorf komplexum orogén-párhuzamos nyírásokat mutat a devon-karbon konvergenciából. A csúcsok meghaladják a 2700 métert, gránit gerinccel. Története genovai hatásokat és mezőgazdasági fejlődést tartalmaz. A község hegyi és part menti részekre oszlik, nincs közvetlen út, 17 kilométeres kitérő szükséges. Geológiailag kristályos granitoidokat és alpesi metamorf egységeket tartalmaz. A biodiverzitás a közeli maquis-ból és erdőkből származik. A régió parafa tölgy erdői 63500 hektárt fednek. A magasság völgyekre nyújt kilátást, amelyeket 25 millió évvel ezelőtti tektonikus rotációk alakítottak.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p7.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=41.75096957008441,9.171739950634105" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_07_Zonza.jpg" alt="Zonza (Érkezés)">
+      </div>
+
+      <!-- P8 -->
+      <div class="poi" id="p8">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">8. Ghisoni (Település)</div>
+            <div class="coords">42.100623, 9.210653</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p8"></span><span data-badgetext="p8">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p8">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A hágóról leereszkedve érjük el ezt a festői falut, amelyet a Monte Renoso és a Kyrie Eleison hegycsúcsok ölelnek körül. Ghisoni 658 méteres magasságban fekszik egy természetes medencében, körülvéve a 2352 méteres Monte Renoso-val. Lakossága a Haute-Corse megyéhez tartozik. Története tartalmazza a Ghjuvannali testvériséget, disszidens ferenceseket, akiket 1363-1364-ben mészároltak le. A Santa Croce kápolna a 15. századból származik, 1989-ben történelmi műemlékké nyilvánítva. A Neptun-kút 1856-ban készült, Gabriel-Vital Dubray öntötte. Geológiailag a kristályos zónában fekszik gránit masszívumokkal. A közeli Mela híd genovai, 5 kilométerre. A falu a Regionális Természeti Parkban van, Marmanu és Sorba erdőkkel. A biodiverzitás endemikus kétéltűeket tartalmaz, mint a korzikai szalamandra. A terület maquis cserjést tartalmaz levendulával és mirtusszal.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p8.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.100623,9.210653" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_08_Ghisoni.jpg" alt="Ghisoni (Település)">
+      </div>
+
+      <!-- P9 -->
+      <div class="poi" id="p9">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">9. Col de Sorba (Hágó)</div>
+            <div class="coords">42.144106995819726, 9.19040572701195</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p9"></span><span data-badgetext="p9">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p9">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          1311 méter magas hágó a D69-es úton. Technikás, hajtűkanyarokkal teli út vezet fel, a tetőről pedig pazar kilátás nyílik a keleti partvidékre és a környező hegyekre. A Col de Sorba 1311 méteres magasságban fekszik a D69-es úton. A herciniai (nyugati) és alpesi (keleti) Korzika találkozásánál van. A terület a Rospa-Sorba területi erdőben fekszik, főleg Pinus nigra laricio-ból állva, gyantás területeket fedve. Egy 2000-es tűzvész 70 hektárt égetett el, beleértve 28 hektár laricio fenyőerdőt. Geológiailag északnyugat-délkeleti irányú töréseket tartalmaz. Natura 2000 terület az EU 92/43/CEE irányelv szerinti fajok számára, beleértve emlősöket és növényeket. A biodiverzitás korzikai csuszkát és endemikus taxonokat tartalmaz. A hágó az első a három közül (Sorba, Verde, Vaccia) Corte-tól Sartène-ig. Környező csúcsok a 1465 méteres Punta Chiova és az 1565 méteres Punta Muro. A terület a Korzika Regionális Természeti Parkban van.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p9.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.144106995819726,9.19040572701195" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_09_Col_de_Sorba.jpg" alt="Col de Sorba (Hágó)">
+      </div>
+
+      <!-- P10 -->
+      <div class="poi" id="p10">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">10. Vivario (Település)</div>
+            <div class="coords">42.172115, 9.17106</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p10"></span><span data-badgetext="p10">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p10">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Hangulatos hegyi település, amely stratégiai pont a hágók előtt. Innen indul a kapaszkodó a Col de Sorba felé, elhagyva a főutat (T20). Vivario a Haute-Corse megyében fekszik, a Col de Vizzavona emelkedő kezdetén. Három vasútállomás szolgálja: Vivario, Tattone, Vizzavona a Corte-Ajaccio vonalon. Földrajzilag hegyvidéki terepen van az ősi kristályos masszívummal. Története korzikai függetlenségi harcokhoz és genovai uralomhoz kötődik. Lakossága Korzika 18 régiójának része, 8681 négyzetkilométeres területtel. A biodiverzitás korzikai csuszkát és kétéltűeket tartalmaz, mint a korzikai szalamandra. A közeli Vecchio folyó áramlásmérései 1960-2021-ig terjednek, 147 négyzetkilométeres vízgyűjtővel. Éves csapadékmennyiség 1061 milliméter. Geológiailag gránitot és metamorf kőzeteket tartalmaz variszkuszi és alpesi orogéniaiból. A terület maquis cserjést tartalmaz aromás növényekkel.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p10.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.172115,9.17106" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_10_Vivario.jpg" alt="Vivario (Település)">
+      </div>
+
+      <!-- P11 -->
+      <div class="poi" id="p11">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">11. Pont du Vecchio (Híd)</div>
+            <div class="coords">42.193181, 9.16763</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p11"></span><span data-badgetext="p11">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p11">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A Gustave Eiffel által tervezett látványos vasúti viadukt és a mellette lévő közúti híd a Vecchio folyó felett ível át. Érdemes egy pillantást vetni a szerkezetre. A Pont du Vecchio fém vasúti viadukt 1891-1893 között épült Gustave Eiffel tervei alapján. Hossza 170,96 méter, magassága 84 méter, Korzika legnagyobb viaduktja. Három egymástól függő fesztávolságból áll, két pillérrel és kettős ívű támfalakkal. Gyárilag készült acélelemeket a helyszínen szerelték össze a Compagnie des Etablissements Eiffel által. A Vecchio folyót keresztezi Venaco és Vivario között a Bastia-Ajaccio vonalon. Alatta egy 1826-1827-ben épült közúti híd van, ma gyalogosok és kerékpárosok számára. A Vecchio folyó vízgyűjtője 147 négyzetkilométer, éves csapadék 1061 milliméter. Geológiailag a völgy gránit sziklákat és smaragdzöld szurdokokat tartalmaz. A híd tervezése vas rácsot használ szerkezeti integritásért. Több mint 130 éve működik.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p11.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.193181,9.16763" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/DAY05_11_Pont_du_Vecchio.jpg" alt="Pont du Vecchio (Híd)">
+      </div>
+
+    </div>
+
+    <!-- TÖRÖLVE: Képek mappája: day05/images ... -->
+
+    <!-- TÉRKÉP AZ OLDAL ALJÁN (CSAK HOZZÁADVA) -->
+    <div style="height:16px"></div>
+    <div class="card">
+      <div class="h1">Térkép</div>
+      <div id="map" style="width:100%; height:360px; border-radius:12px;"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const POIS = [
+  {id:"p1",lat:42.0968250849991,lon:9.305939548145744},
+  {id:"p2",lat:42.095575,lon:9.281474},
+  {id:"p3",lat:41.910946,lon:9.388454},
+  {id:"p4",lat:41.858166,lon:9.402219},
+  {id:"p5",lat:41.833717,lon:9.313208},
+  {id:"p6",lat:41.795841,lon:9.224671},
+  {id:"p7",lat:41.75096957008441,lon:9.171739950634105},
+  {id:"p8",lat:42.100623,lon:9.210653},
+  {id:"p9",lat:42.144106995819726,lon:9.19040572701195},
+  {id:"p10",lat:42.172115,lon:9.17106},
+  {id:"p11",lat:42.193181,lon:9.16763}
+];
+
+let sample1 = null;
+let t2 = null;
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat/2)**2 +
+    Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function setBadge(id, txt){
+  const el = document.querySelector(`[data-badgetext="${id}"]`);
+  if(el) el.textContent = txt;
+}
+
+function setDist(id, km){
+  const el = document.querySelector(`[data-dist="${id}"]`);
+  if(el) el.textContent = `távolság: ${km.toFixed(2)} km`;
+}
+
+function computeDistances(pos){
+  const out = {};
+  POIS.forEach(p=>{
+    out[p.id] = haversineKm(pos.lat, pos.lon, p.lat, p.lon);
+  });
+  return out;
+}
+
+function scrollToPoi(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+function pickTarget(d1, d2, moveKm){
+  if(moveKm < 0.03) {
+    let best = null;
+    for(const id in d2){
+      if(!best || d2[id] < best.km) best = {id, km:d2[id]};
+    }
+    return best ? best.id : null;
+  }
+
+  let best = null;
+  for(const id in d2){
+    const delta = (d1 && d1[id] != null) ? (d1[id] - d2[id]) : 0;
+    const score = delta;
+    if(!best) best = {id, score, km:d2[id]};
+    else {
+      if(score > best.score + 1e-9) best = {id, score, km:d2[id]};
+      else if(Math.abs(score - best.score) < 1e-9 && d2[id] < best.km) best = {id, score, km:d2[id]};
+    }
+  }
+  return best ? best.id : null;
+}
+
+function updateUI(distances){
+  for(const id in distances){
+    setDist(id, distances[id]);
+    setBadge(id, "mérve");
+  }
+}
+
+function getPosOnce(){
+  return new Promise((resolve, reject)=>{
+    if(!navigator.geolocation){
+      reject(new Error("Geolocation not supported"));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      p => resolve({lat:p.coords.latitude, lon:p.coords.longitude}),
+      e => reject(e),
+      { enableHighAccuracy:true, maximumAge:0, timeout:12000 }
+    );
+  });
+}
+
+async function runMeasureCycle(scrollAfter=true){
+  if(t2) { clearTimeout(t2); t2 = null; }
+  document.getElementById("gpsNotice").style.display = "none";
+
+  try{
+    const posA = await getPosOnce();
+    const dA = computeDistances(posA);
+    updateUI(dA);
+    sample1 = {pos:posA, d:dA};
+
+    if(scrollAfter){
+      const nearestA = Object.keys(dA).reduce((best,id)=> !best || dA[id] < dA[best] ? id : best, null);
+      if(nearestA) scrollToPoi(nearestA);
+    }
+
+    t2 = setTimeout(async ()=>{
+      try{
+        const posB = await getPosOnce();
+        const dB = computeDistances(posB);
+        updateUI(dB);
+
+        const moveKm = haversineKm(sample1.pos.lat, sample1.pos.lon, posB.lat, posB.lon);
+        const target = pickTarget(sample1.d, dB, moveKm);
+        if(target) scrollToPoi(target);
+
+      } catch(err2){
+        document.getElementById("gpsNotice").style.display = "block";
+      }
+    }, 5000);
+
+  } catch(err){
+    document.getElementById("gpsNotice").style.display = "block";
+  }
+}
+
+runMeasureCycle(true);
+
+document.getElementById("btnNearest").addEventListener("click", ()=>{
+  runMeasureCycle(true);
+});
+
+/* TÉRKÉP LOGIKA (CSAK HOZZÁADVA) + SZÁMOZOTT KÉK POI-JELÖLŐK + PIROS SAJÁT HELY */
+let map;
+
+function blueNumberIcon(n) {
+  const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="46" viewBox="0 0 30 46">
+  <path d="M15 0C8 0 2.5 5.5 2.5 12.5C2.5 23 15 46 15 46C15 46 27.5 23 27.5 12.5C27.5 5.5 22 0 15 0Z"
+        fill="#2A81CB" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>
+  <text x="15" y="18" text-anchor="middle"
+        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+        font-size="13" font-weight="800"
+        fill="#ff2b2b" stroke="#ffffff" stroke-width="2" paint-order="stroke">${n}</text>
+</svg>`;
+
+  return L.divIcon({
+    className: "poi-numbered-icon",
+    html: svg,
+    iconSize: [30, 46],
+    iconAnchor: [15, 46],
+    popupAnchor: [0, -38]
+  });
+}
+
+function getPoiTitle(id) {
+  const el = document.querySelector(`#${id} .poi-title`);
+  return el ? el.textContent.trim() : id;
+}
+
+function initMap(userPos) {
+  map = L.map("map");
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap"
+  }).addTo(map);
+
+  const bounds = [];
+
+  // POI-k: kék pin + sorszám
+  POIS.forEach(p => {
+    const num = parseInt(String(p.id).replace("p", ""), 10);
+    const safeNum = Number.isFinite(num) ? num : "";
+    const title = getPoiTitle(p.id);
+
+    L.marker([p.lat, p.lon], { icon: blueNumberIcon(safeNum) })
+      .addTo(map)
+      .bindPopup(title);
+
+    bounds.push([p.lat, p.lon]);
+  });
+
+  // Saját helyzet piros jelölővel
+  if (userPos) {
+    const redIcon = L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    L.marker([userPos.lat, userPos.lon], { icon: redIcon })
+      .addTo(map)
+      .bindPopup("📍 Itt vagyok");
+
+    bounds.push([userPos.lat, userPos.lon]);
+  }
+
+  if (bounds.length) {
+    map.fitBounds(bounds, { padding: [30, 30] });
+  }
+}
+
+getPosOnce()
+  .then(pos => initMap(pos))
+  .catch(() => initMap(null));
+</script>
+
+</body>
+</html>

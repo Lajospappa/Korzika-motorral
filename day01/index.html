@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAY01 lista nézet</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Leaflet (CSAK HOZZÁADVA) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- DAY01 háttér -->
+  <style>
+    body.day01 {
+      background: url("images/01_Scala_di_Santa_Regina_kanyon.jpg") center / cover no-repeat fixed;
+    }
+
+    /* szövegdoboz háttér picit sötétebb */
+    .card{
+      background: rgba(0,0,0,0.72);
+    }
+
+    /* --- SZÁMOZOTT KÉK POI JELÖLŐ (CSAK HOZZÁADVA) --- */
+    .poi-numbered-icon {
+      background: transparent;
+      border: none;
+    }
+    .poi-numbered-icon svg {
+      display: block;
+    }
+  </style>
+</head>
+
+<body class="day01">
+<div class="page">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="inner">
+      <div class="brand">
+        <div class="title">Korzika motor tura</div>
+        <div class="subtitle">DAY01 lista nézet</div>
+      </div>
+      <div class="btnrow">
+        <a class="btn" href="../index.html">🏠 Főoldal</a>
+        <button class="btn btn-accent" id="btnNearest">📌 Legközelebbi pont</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="container">
+
+    <div class="card">
+      <div class="h1">DAY01 – Corte, Castagniccia, Ponte Novu</div>
+      <div class="small">
+        A mérés automatikusan indul oldalnyitáskor, majd 5 mp múlva frissít.
+        A távolságok minden célpontnál frissülnek, és az oldal a legvalószínűbb következő pontra ugrik.
+      </div>
+      <div class="notice" id="gpsNotice" style="display:none">
+        A böngésző nem tudott helyet kérni. Ellenőrizd a helymeghatározási engedélyt (Telefon: beállítások → Böngésző → Hely).
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+
+    <div class="grid" id="poiList">
+
+      <!-- P1 -->
+      <div class="poi" id="p1">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">1. Scala di Santa Regina kanyon</div>
+            <div class="coords">42.358658, 9.059980</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p1"></span><span data-badgetext="p1">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p1">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A Golo folyó által vájt szűk sziklavölgy, ahol a kanyargó út szinte a függőleges falakhoz tapad.
+          A Niolo kapujaként ismert ikonikus motoros szakasz.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p1.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.358658,9.05998" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/01_Scala_di_Santa_Regina_kanyon.jpg" alt="Scala di Santa Regina kanyon">
+      </div>
+
+      <!-- P2 -->
+      <div class="poi" id="p2">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">2. Pasquale Paoli szobra, Corte</div>
+            <div class="coords">42.305280, 9.151193</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p2"></span><span data-badgetext="p2">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p2">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A korzikai függetlenségi mozgalom vezetőjének emlékműve a város főterén.
+          Paoli a 18. században alkotmányos köztársaságot hozott létre, Európa egyik első modern demokráciáját.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p2.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.30528,9.151193" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/02_Pasquale_Paoli_szobra_Corte.jpg" alt="Pasquale Paoli szobra, Corte">
+      </div>
+
+      <!-- P3 -->
+      <div class="poi" id="p3">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">3. Corte citadella</div>
+            <div class="coords">42.304682, 9.148414</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p3"></span><span data-badgetext="p3">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p3">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Korzika belső fellegvára, Pasquale Paoli főhadiszállása a 18. századi függetlenségi mozgalom idején.
+          A meredek sziklára épült erőd a vad hegyvidék felett uralkodik.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p3.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.304682,9.148414" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/03_Corte_citadella.jpg" alt="Corte citadella">
+      </div>
+
+      <!-- P4 -->
+      <div class="poi" id="p4">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">4. Belvédère de Corte</div>
+            <div class="coords">42.303878, 9.148548</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p4"></span><span data-badgetext="p4">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p4">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Panorámapont Corte felett, ahonnan jól látható a város stratégiai fekvése és a két völgy találkozása.
+          Kiváló áttekintést ad a terepről indulás előtt.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p4.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.303878,9.148548" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/04_Belvedere_de_Corte.jpg" alt="Belvédère de Corte">
+      </div>
+
+      <!-- P5 -->
+      <div class="poi" id="p5">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">5. Église de Saint Siméon</div>
+            <div class="coords">42.279090, 9.412402</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p5"></span><span data-badgetext="p5">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p5">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Megálló az Église de Saint Siméon templomnál az útvonal mentén.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p5.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.27909033428401,9.412401967285973" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/05_Eglise_de_Saint_Simeon.jpg" alt="Église de Saint Siméon">
+      </div>
+
+      <!-- P6 -->
+      <div class="poi" id="p6">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">6. Orezza ipari örökség és gyógyforrás</div>
+            <div class="coords">42.376305, 9.377361</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p6"></span><span data-badgetext="p6">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p6">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A Castagniccia erdeiben működtek a 18–19. század vaskohói.
+          A környék vasbányászata és a természetes szénsavas források egyedülálló ipari történeti kombinációt adnak.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p6.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.376305,9.377361" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/06_Orezza_ipari_orokseg_es_gyogyforras.jpg" alt="Orezza ipari örökség és gyógyforrás">
+      </div>
+
+      <!-- P7 -->
+      <div class="poi" id="p7">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">7. Piedicroce</div>
+            <div class="coords">42.374717, 9.367915</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p7"></span><span data-badgetext="p7">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p7">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A Castagniccia központja, gazdag barokk örökséggel és történelmi jelentőséggel.
+          Fontos csomópont és ellenállási központ volt.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p7.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.374717,9.367915" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/07_Piedicroce.jpg" alt="Piedicroce">
+      </div>
+
+      <!-- P8 -->
+      <div class="poi" id="p8">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">8. Couvent d'Orezza</div>
+            <div class="coords">42.382106, 9.365654</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p8"></span><span data-badgetext="p8">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p8">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A korzikai függetlenség bölcsője.
+          Itt fogadták el 1735-ben az első alkotmányt.
+          Ma romos, de rendkívül erős történelmi atmoszférával bír.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p8.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.382106,9.365654" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/08_Couvent_dOrezza.jpg" alt="Couvent d'Orezza">
+      </div>
+
+      <!-- P9 -->
+      <div class="poi" id="p9">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">9. Saint Jean Baptiste templom, La Porta</div>
+            <div class="coords">42.423162, 9.352895</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p9"></span><span data-badgetext="p9">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p9">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A Castagniccia barokk temploma a sziget egyik legjelentősebb vallási építménye.
+          Homlokzatának gazdag díszítése és tornya a korzikai barokk sajátos stílusát képviseli.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p9.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.423162,9.352895" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/09_Saint_Jean_Baptiste_templom_La_Porta.jpg" alt="Saint Jean Baptiste templom, La Porta">
+      </div>
+
+      <!-- P10 -->
+      <div class="poi" id="p10">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">10. Col de Prato</div>
+            <div class="coords">42.427498, 9.331423</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p10"></span><span data-badgetext="p10">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p10">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          985 méteres hágó a Castagniccia és a Casinca között.
+          Hagyományos pásztorút, fontos földrajzi és kulturális választóvonal.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p10.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.427498,9.331423" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/10_Col_de_Prato.jpg" alt="Col de Prato">
+      </div>
+
+      <!-- P11 -->
+      <div class="poi" id="p11">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">11. Pasquale Paoli szülőháza, Morosaglia</div>
+            <div class="coords">42.437816, 9.309002</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p11"></span><span data-badgetext="p11">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p11">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A Castagniccia erdeiben álló ház, ahol Paoli született.
+          Ma múzeumként őrzi a szabadságharc korszakának történetét.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p11.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.437816,9.309002" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/11_Pasquale_Paoli_szulohaza_Morosaglia.jpg" alt="Pasquale Paoli szülőháza, Morosaglia">
+      </div>
+
+      <!-- P12 -->
+      <div class="poi" id="p12">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">12. Couvent de Morosaglia</div>
+            <div class="coords">42.435036, 9.298189</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p12"></span><span data-badgetext="p12">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p12">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Oktatási és politikai központ a 18. században.
+          Itt működött Paoli reformmozgalmának egyik bázisa.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p12.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.435036,9.298189" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/12_Couvent_de_Morosaglia.jpg" alt="Couvent de Morosaglia">
+      </div>
+
+      <!-- P13 -->
+      <div class="poi" id="p13">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">13. Castello di Rostino</div>
+            <div class="coords">42.463131, 9.315195</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p13"></span><span data-badgetext="p13">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p13">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Középkori romok és korai keresztény emlékek a Golo völgy felett, stratégiai ellenőrzőpont.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p13.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.463131,9.315195" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/13_Castello_di_Rostino.jpg" alt="Castello di Rostino">
+      </div>
+
+      <!-- P14 -->
+      <div class="poi" id="p14">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">14. Ponte Novu</div>
+            <div class="coords">42.486600, 9.281200</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p14"></span><span data-badgetext="p14">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p14">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          A korzikai szabadságharc döntő vereségének helyszíne 1769-ben.
+          A romos híd ma nemzeti emlékhely.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p14.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.4866,9.2812" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/14_Ponte_Novu.jpg" alt="Ponte Novu">
+      </div>
+
+      <!-- P15 -->
+      <div class="poi" id="p15">
+        <div class="poi-head">
+          <div>
+            <div class="poi-title">15. Village Miniature de Carcheto</div>
+            <div class="coords">42.487734, 9.281473</div>
+          </div>
+          <div class="badges">
+            <span class="badge"><span class="dot warn" data-dot="p15"></span><span data-badgetext="p15">mérés: várakozás</span></span>
+            <span class="badge"><span class="dot warn"></span><span data-dist="p15">távolság: —</span></span>
+          </div>
+        </div>
+
+        <div class="p">
+          Helyi kőből épített miniatűr falu, amely a Castagniccia építészeti hagyományait mutatja be.
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-accent" href="p15.html">Részletek</a>
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.487734,9.281473" target="_blank">🧭 Navigáció</a>
+        </div>
+
+        <img class="inline-image" src="images/15_Village_Miniature_de_Carcheto.jpg" alt="Village Miniature de Carcheto">
+      </div>
+
+    </div>
+
+    <!-- TÖRÖLVE: Képek mappája: day01/images ... -->
+
+    <!-- TÉRKÉP AZ OLDAL ALJÁN (CSAK HOZZÁADVA) -->
+    <div style="height:16px"></div>
+    <div class="card">
+      <div class="h1">Térkép</div>
+      <div id="map" style="width:100%; height:360px; border-radius:12px;"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const POIS = [
+  {id:"p1",lat:42.358658,lon:9.05998},
+  {id:"p2",lat:42.30528,lon:9.151193},
+  {id:"p3",lat:42.304682,lon:9.148414},
+  {id:"p4",lat:42.303878,lon:9.148548},
+  {id:"p5",lat:42.27909033428401,lon:9.412401967285973},
+  {id:"p6",lat:42.376305,lon:9.377361},
+  {id:"p7",lat:42.374717,lon:9.367915},
+  {id:"p8",lat:42.382106,lon:9.365654},
+  {id:"p9",lat:42.423162,lon:9.352895},
+  {id:"p10",lat:42.427498,lon:9.331423},
+  {id:"p11",lat:42.437816,lon:9.309002},
+  {id:"p12",lat:42.435036,lon:9.298189},
+  {id:"p13",lat:42.463131,lon:9.315195},
+  {id:"p14",lat:42.4866,lon:9.2812},
+  {id:"p15",lat:42.487734,lon:9.281473}
+];
+
+let sample1 = null;
+let t2 = null;
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a =
+    Math.sin(dLat/2)**2 +
+    Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function setBadge(id, txt){
+  const el = document.querySelector(`[data-badgetext="${id}"]`);
+  if(el) el.textContent = txt;
+}
+
+function setDist(id, km){
+  const el = document.querySelector(`[data-dist="${id}"]`);
+  if(el) el.textContent = `távolság: ${km.toFixed(2)} km`;
+}
+
+function computeDistances(pos){
+  const out = {};
+  POIS.forEach(p=>{
+    out[p.id] = haversineKm(pos.lat, pos.lon, p.lat, p.lon);
+  });
+  return out;
+}
+
+function scrollToPoi(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:"smooth", block:"center"});
+}
+
+function pickTarget(d1, d2, moveKm){
+  if(moveKm < 0.03) {
+    let best = null;
+    for(const id in d2){
+      if(!best || d2[id] < best.km) best = {id, km:d2[id]};
+    }
+    return best ? best.id : null;
+  }
+
+  let best = null;
+  for(const id in d2){
+    const delta = (d1 && d1[id] != null) ? (d1[id] - d2[id]) : 0;
+    const score = delta;
+    if(!best) best = {id, score, km:d2[id]};
+    else {
+      if(score > best.score + 1e-9) best = {id, score, km:d2[id]};
+      else if(Math.abs(score - best.score) < 1e-9 && d2[id] < best.km) best = {id, score, km:d2[id]};
+    }
+  }
+  return best ? best.id : null;
+}
+
+function updateUI(distances){
+  for(const id in distances){
+    setDist(id, distances[id]);
+    setBadge(id, "mérve");
+  }
+}
+
+function getPosOnce(){
+  return new Promise((resolve, reject)=>{
+    if(!navigator.geolocation){
+      reject(new Error("Geolocation not supported"));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      p => resolve({lat:p.coords.latitude, lon:p.coords.longitude}),
+      e => reject(e),
+      { enableHighAccuracy:true, maximumAge:0, timeout:12000 }
+    );
+  });
+}
+
+async function runMeasureCycle(scrollAfter=true){
+  if(t2) { clearTimeout(t2); t2 = null; }
+  document.getElementById("gpsNotice").style.display = "none";
+
+  try{
+    const posA = await getPosOnce();
+    const dA = computeDistances(posA);
+    updateUI(dA);
+    sample1 = {pos:posA, d:dA};
+
+    if(scrollAfter){
+      const nearestA = Object.keys(dA).reduce((best,id)=> !best || dA[id] < dA[best] ? id : best, null);
+      if(nearestA) scrollToPoi(nearestA);
+    }
+
+    t2 = setTimeout(async ()=>{
+      try{
+        const posB = await getPosOnce();
+        const dB = computeDistances(posB);
+        updateUI(dB);
+
+        const moveKm = haversineKm(sample1.pos.lat, sample1.pos.lon, posB.lat, posB.lon);
+        const target = pickTarget(sample1.d, dB, moveKm);
+        if(target) scrollToPoi(target);
+
+      } catch(err2){
+        document.getElementById("gpsNotice").style.display = "block";
+      }
+    }, 5000);
+
+  } catch(err){
+    document.getElementById("gpsNotice").style.display = "block";
+  }
+}
+
+runMeasureCycle(true);
+
+document.getElementById("btnNearest").addEventListener("click", ()=>{
+  runMeasureCycle(true);
+});
+
+/* TÉRKÉP LOGIKA (CSAK HOZZÁADVA) + SZÁMOZOTT KÉK POI-JELÖLŐK + PIROS SAJÁT HELY */
+let map;
+
+function blueNumberIcon(n) {
+  const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="46" viewBox="0 0 30 46">
+  <path d="M15 0C8 0 2.5 5.5 2.5 12.5C2.5 23 15 46 15 46C15 46 27.5 23 27.5 12.5C27.5 5.5 22 0 15 0Z"
+        fill="#2A81CB" stroke="rgba(0,0,0,0.35)" stroke-width="1"/>
+  <text x="15" y="18" text-anchor="middle"
+        font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+        font-size="13" font-weight="800"
+        fill="#ff2b2b" stroke="#ffffff" stroke-width="2" paint-order="stroke">${n}</text>
+</svg>`;
+
+  return L.divIcon({
+    className: "poi-numbered-icon",
+    html: svg,
+    iconSize: [30, 46],
+    iconAnchor: [15, 46],
+    popupAnchor: [0, -38]
+  });
+}
+
+function getPoiTitle(id) {
+  const el = document.querySelector(`#${id} .poi-title`);
+  return el ? el.textContent.trim() : id;
+}
+
+function initMap(userPos) {
+  map = L.map("map");
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap"
+  }).addTo(map);
+
+  const bounds = [];
+
+  // POI-k: kék pin + sorszám
+  POIS.forEach(p => {
+    const num = parseInt(String(p.id).replace("p", ""), 10);
+    const safeNum = Number.isFinite(num) ? num : "";
+    const title = getPoiTitle(p.id);
+
+    L.marker([p.lat, p.lon], { icon: blueNumberIcon(safeNum) })
+      .addTo(map)
+      .bindPopup(title);
+
+    bounds.push([p.lat, p.lon]);
+  });
+
+  // Saját helyzet piros jelölővel
+  if (userPos) {
+    const redIcon = L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    });
+
+    L.marker([userPos.lat, userPos.lon], { icon: redIcon })
+      .addTo(map)
+      .bindPopup("📍 Itt vagyok");
+
+    bounds.push([userPos.lat, userPos.lon]);
+  }
+
+  if (bounds.length) {
+    map.fitBounds(bounds, { padding: [30, 30] });
+  }
+}
+
+getPosOnce()
+  .then(pos => initMap(pos))
+  .catch(() => initMap(null));
+</script>
+
+</body>
+</html>

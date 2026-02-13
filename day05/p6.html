@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAY05 6. Col de Bavella (Hágó és Aiguilles)</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Háttérkép ugyanaz, mint a hero image -->
+  <style>
+    body {
+      background: url("images/DAY05_06_Col_de_Bavella.jpg") center / cover no-repeat fixed;
+    }
+
+    /* térkép */
+    #map {
+      width: 100%;
+      height: 320px;
+      margin-top: 18px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="inner">
+        <div class="brand">
+          <div class="title">Korzika motor tura</div>
+          <div class="subtitle">DAY05 6. Col de Bavella (Hágó és Aiguilles)</div>
+        </div>
+        <div class="btnrow">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+          <a class="btn" href="index.html">📋 Lista nézet</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container">
+      <div class="card">
+
+        <div class="h1">6. Col de Bavella (Hágó és Aiguilles)</div>
+        <div class="small">41.795841, 9.224671</div>
+
+        <!-- HERO IMAGE -->
+        <img class="hero-image" src="images/DAY05_06_Col_de_Bavella.jpg" alt="Col de Bavella (Hágó és Aiguilles)">
+
+        <div class="p">
+          A &quot;Bavella-tűk&quot; (Aiguilles de Bavella) lábánál fekvő 1218 méteres hágó. Korzika egyik legikonikusabb és legszebb helyszíne, drámai sziklaformációkkal. Itt található a Havas Boldogasszony (Notre-Dame des Neiges) szobra is. A Col de Bavella 1218 méteres magasságban fekszik, összekötve az Alta Rocca-t a keleti parttal. A Bavella-tűk vörös gránit csúcsok, szürke, okker és arany árnyalatokkal. A masszívum hét Asinau tornyot tartalmaz, 1588 métertől (Punta di l’Acellu) 1855 méterig (Punta Alta). A Monte Incudine 2134 méteres magassággal dominál. Geológiailag a variszkuszi orogénia gránitjának eróziójából keletkezett. A terület Laricio fenyőerdőt tartalmaz, az 1960-as évek tűzvészei utáni újraerdősítéssel, beleértve cédrusokat és gesztenyefákat. A hágó a Regionális Természeti Parkban van, 500 méteres magasságkülönbségekkel a túrákon. A Trou de la Bombe természetes eróziós képződmény a gránitban. A biodiverzitás endemikus fajokat tartalmaz a megőrzött magashegyi környezetben. A GR20 ösvény a közelben halad, alpesi variánssal 1662 méteres Bocca di u Pargulu-ig.
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="poibtns">
+          <a class="btn btn-blue" href="https://maps.google.com/?q=41.795841,9.224671" target="_blank" rel="noopener">
+            🧭 Navigáció
+          </a>
+          <a class="btn btn-accent" href="index.html">📋 Lista nézet</a>
+        </div>
+
+        <div class="poibtns">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+        </div>
+
+        <!-- MAP – LEGALUL -->
+        <div id="map"></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* ===== POI ===== */
+    const POI = {
+      name: "Col de Bavella (Hágó és Aiguilles)",
+      lat: 41.795841,
+      lon: 9.224671
+    };
+
+    /* ===== MAP INIT ===== */
+    const map = L.map("map").setView([POI.lat, POI.lon], 13);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "© OpenStreetMap"
+    }).addTo(map);
+
+    /* ===== POI MARKER ===== */
+    L.marker([POI.lat, POI.lon])
+      .addTo(map)
+      .bindPopup(`<b>${POI.name}</b>`);
+
+    /* ===== USER POSITION – PIROS ===== */
+    let userMarker = null;
+
+    const userIconRed = L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        pos => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+
+          if (!userMarker) {
+            userMarker = L.marker([lat, lon], { icon: userIconRed })
+              .addTo(map)
+              .bindPopup("📍 Itt vagy most");
+          } else {
+            userMarker.setLatLng([lat, lon]);
+          }
+        },
+        err => console.log("GPS hiba:", err),
+        { enableHighAccuracy: true }
+      );
+    }
+  </script>
+
+</body>
+
+</html>

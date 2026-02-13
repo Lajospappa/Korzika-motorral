@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAY05 4. Solenzara (Tengerparti város)</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Háttérkép ugyanaz, mint a hero image -->
+  <style>
+    body {
+      background: url("images/DAY05_04_Solenzara.jpg") center / cover no-repeat fixed;
+    }
+
+    /* térkép */
+    #map {
+      width: 100%;
+      height: 320px;
+      margin-top: 18px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="inner">
+        <div class="brand">
+          <div class="title">Korzika motor tura</div>
+          <div class="subtitle">DAY05 4. Solenzara (Tengerparti város)</div>
+        </div>
+        <div class="btnrow">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+          <a class="btn" href="index.html">📋 Lista nézet</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container">
+      <div class="card">
+
+        <div class="h1">4. Solenzara (Tengerparti város)</div>
+        <div class="small">41.858166, 9.402219</div>
+
+        <!-- HERO IMAGE -->
+        <img class="hero-image" src="images/DAY05_04_Solenzara.jpg" alt="Solenzara (Tengerparti város)">
+
+        <div class="p">
+          Kikötőváros, ahol az útvonalunk elhagyja a partot és a D268-as úton ismét a hegyek (Bavella) felé fordul. Ideális hely tankolásra vagy egy kávéra a tengerparton. Solenzara a keleti üledékes síkság déli végén fekszik, Bastia-tól délre nyúlva, újabb üledékes kőzetekkel. A város a palás lánc lábánál helyezkedik el, az alpesi Korzika geológiai egységének része. Történelmileg egy genovai citadellából fejlődött ki, az 1960-as években virágzó mezőgazdasági településsé vált. A terület sík topográfiával rendelkezik, nagy part menti síkságokkal, amelyeket folyók, mint a Solenzara és a Tavignano alakítottak. Tengerszint tanulmányok mutatják a relatív stabilitást a késő neolitikum óta, izosztatikus változásokkal. A Solenzara folyó 22 kilométer hosszú, 1145 méteres magasságból eredve a Tirén-tengerbe ömlik. Geológiailag tartalmazza az eocén flysch-t, egy detritikus üledékes egységet. A Fautea-Solenzara szeparátum dextrális transzpresszív nyírászónákat mutat, amelyek 360 millió évvel ezelőtt aktívak voltak. A biodiverzitás a közeli regionális természeti park fajait tartalmazza. A kikötő támogatja a tengeri tevékenységeket egy 1047 kilométeres partvidékű régióban.
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="poibtns">
+          <a class="btn btn-blue" href="https://maps.google.com/?q=41.858166,9.402219" target="_blank" rel="noopener">
+            🧭 Navigáció
+          </a>
+          <a class="btn btn-accent" href="index.html">📋 Lista nézet</a>
+        </div>
+
+        <div class="poibtns">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+        </div>
+
+        <!-- MAP – LEGALUL -->
+        <div id="map"></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* ===== POI ===== */
+    const POI = {
+      name: "Solenzara (Tengerparti város)",
+      lat: 41.858166,
+      lon: 9.402219
+    };
+
+    /* ===== MAP INIT ===== */
+    const map = L.map("map").setView([POI.lat, POI.lon], 13);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "© OpenStreetMap"
+    }).addTo(map);
+
+    /* ===== POI MARKER ===== */
+    L.marker([POI.lat, POI.lon])
+      .addTo(map)
+      .bindPopup(`<b>${POI.name}</b>`);
+
+    /* ===== USER POSITION – PIROS ===== */
+    let userMarker = null;
+
+    const userIconRed = L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        pos => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+
+          if (!userMarker) {
+            userMarker = L.marker([lat, lon], { icon: userIconRed })
+              .addTo(map)
+              .bindPopup("📍 Itt vagy most");
+          } else {
+            userMarker.setLatLng([lat, lon]);
+          }
+        },
+        err => console.log("GPS hiba:", err),
+        { enableHighAccuracy: true }
+      );
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAY03 2. L’Île-Rousse</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Háttérkép ugyanaz, mint a hero image -->
+  <style>
+    body {
+      background: url("images/DAY03_02_L_Ile_Rousse.jpg") center / cover no-repeat fixed;
+    }
+
+    /* térkép */
+    #map {
+      width: 100%;
+      height: 320px;
+      margin-top: 18px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="inner">
+        <div class="brand">
+          <div class="title">Korzika motor tura</div>
+          <div class="subtitle">DAY03 2. L’Île-Rousse</div>
+        </div>
+        <div class="btnrow">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+          <a class="btn" href="index.html">📋 Lista nézet</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container">
+      <div class="card">
+
+        <div class="h1">2. L’Île-Rousse</div>
+        <div class="small">42.635741, 8.938554</div>
+
+        <!-- HERO IMAGE -->
+        <img class="hero-image" src="images/DAY03_02_L_Ile_Rousse.jpg" alt="L’Île-Rousse">
+
+        <div class="p">
+          Alternatív forgatási helyszín Ajaccio helyett
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="poibtns">
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.635741,8.938554" target="_blank" rel="noopener">
+            🧭 Navigáció
+          </a>
+          <a class="btn btn-accent" href="index.html">📋 Lista nézet</a>
+        </div>
+
+        <div class="poibtns">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+        </div>
+
+        <!-- MAP – LEGALUL -->
+        <div id="map"></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* ===== POI ===== */
+    const POI = {
+      name: "L’Île-Rousse",
+      lat: 42.635741,
+      lon: 8.938554
+    };
+
+    /* ===== MAP INIT ===== */
+    const map = L.map("map").setView([POI.lat, POI.lon], 13);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "© OpenStreetMap"
+    }).addTo(map);
+
+    /* ===== POI MARKER ===== */
+    L.marker([POI.lat, POI.lon])
+      .addTo(map)
+      .bindPopup(`<b>${POI.name}</b>`);
+
+    /* ===== USER POSITION – PIROS ===== */
+    let userMarker = null;
+
+    const userIconRed = L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        pos => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+
+          if (!userMarker) {
+            userMarker = L.marker([lat, lon], { icon: userIconRed })
+              .addTo(map)
+              .bindPopup("📍 Itt vagy most");
+          } else {
+            userMarker.setLatLng([lat, lon]);
+          }
+        },
+        err => console.log("GPS hiba:", err),
+        { enableHighAccuracy: true }
+      );
+    }
+  </script>
+
+</body>
+
+</html>

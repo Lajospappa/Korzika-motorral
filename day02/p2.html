@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Le Vieux Port de Bastia</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    body {
+      background: url("images/DAY02_02_Le_Vieux_Port_de_Bastia.jpg") center / cover no-repeat fixed;
+    }
+
+    /* térkép */
+    #map {
+      width: 100%;
+      height: 320px;
+      margin-top: 18px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+
+    .content-section {
+      margin-bottom: 24px;
+    }
+
+    .content-section h2 {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #fff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 5px;
+    }
+
+    .highlight-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #f39c12;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .highlight-box h3 {
+      font-size: 1.1rem;
+      margin-top: 0;
+      color: #ddd;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <div class="topbar">
+      <div class="inner">
+        <div class="brand">
+          <div class="title">Korzika motor túra</div>
+          <div class="subtitle">Le Vieux Port de Bastia</div>
+        </div>
+        <div class="btnrow">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+          <a class="btn" href="index.html">📋 Lista nézet</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="card">
+
+        <div class="h1">Le Vieux Port de Bastia</div>
+
+        <img class="hero-image" src="images/DAY02_02_Le_Vieux_Port_de_Bastia.jpg" alt="Le Vieux Port de Bastia">
+
+        <div class="highlight-box">
+          <strong>Bastia lüktető szíve.</strong> A régi kikötő nem csupán egy rakpart, hanem a város legkarakteresebb negyede, ahol a történelem találkozik a mediterrán életörömmel. A színes genovai házak és a monumentális templomtornyok látványa felejthetetlen kulisszát ad egy rövid sétához.
+        </div>
+
+        <div class="content-section">
+          <h2>Déli kikötői életérzés</h2>
+          <p class="p">A patkó alakú öböl az egykori halászfalu magja volt, ma pedig a város legkedveltebb találkozóhelye. A part mentén sorakozó pasztellszínű épületek, a ringatózó halászbárkák és a modern vitorlások különös kontrasztja adja meg a hely sűrű, hamisítatlanul korzikai hangulatát. Ideális pont egy kávéra vagy rövid pihenőre, mielőtt észak felé, a Cap Corse kanyargós útjai felé indulnánk.</p>
+        </div>
+
+        <div class="content-section">
+          <h2>Esti fények és gasztronómia</h2>
+          <p class="p">Sötétedés után a kikötő új arcát mutatja: a vízen tükröződő városi fények és a kivilágított Saint-Jean-Baptiste templom varázslatos látványt nyújtanak. A rakparton számos étterem és terasz csábít friss tengeri ételekkel, miközben a levegőben sós tengeri szél keveredik a helyi konyha illataival.</p>
+        </div>
+
+        <div class="highlight-box">
+          <h3>🔦 Megfigyelni való</h3>
+          <p class="p">Vessünk egy pillantást a Keresztelő Szent János-templom ikertornyaira, amelyek Bastia jelképévé váltak. Érdemes elsétálni a Romieu-kert lépcsőihez is, ahonnan remek panoráma nyílik az egész öbölre és a Citadella falaira.</p>
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-blue" href="https://www.google.com/maps/search/?api=1&query=42.695411,9.449519" target="_blank" rel="noopener">🧭 Navigáció</a>
+          <a class="btn btn-accent" href="index.html">📋 Lista nézet</a>
+        </div>
+
+        <div class="poibtns">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+        </div>
+
+        <div id="map"></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* ===== POI ===== */
+    const POI = {
+      name: "Le Vieux Port de Bastia",
+      lat: 42.695411,
+      lon: 9.449519
+    };
+
+    /* ===== MAP INIT ===== */
+    const map = L.map("map").setView([POI.lat, POI.lon], 15);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "© OpenStreetMap"
+    }).addTo(map);
+
+    /* ===== POI MARKER ===== */
+    L.marker([POI.lat, POI.lon])
+      .addTo(map)
+      .bindPopup(`<b>${POI.name}</b>`)
+      .openPopup();
+
+    /* ===== USER POSITION – PIROS ===== */
+    let userMarker = null;
+
+    const userIconRed = L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        pos => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+
+          if (!userMarker) {
+            userMarker = L.marker([lat, lon], { icon: userIconRed })
+              .addTo(map)
+              .bindPopup("📍 Itt vagy most");
+          } else {
+            userMarker.setLatLng([lat, lon]);
+          }
+        },
+        err => console.log("GPS hiba:", err),
+        { enableHighAccuracy: true }
+      );
+    }
+  </script>
+
+</body>
+
+</html>

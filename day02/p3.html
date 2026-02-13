@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Restaurant Le Pirate – Erbalunga</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    body {
+      background: url("images/DAY02_03_Restaurant_Le_Pirate.jpg") center / cover no-repeat fixed;
+    }
+
+    /* térkép */
+    #map {
+      width: 100%;
+      height: 320px;
+      margin-top: 18px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+
+    .content-section {
+      margin-bottom: 24px;
+    }
+
+    .content-section h2 {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #fff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 5px;
+    }
+
+    .highlight-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #f39c12;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .highlight-box h3 {
+      font-size: 1.1rem;
+      margin-top: 0;
+      color: #ddd;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <div class="topbar">
+      <div class="inner">
+        <div class="brand">
+          <div class="title">Korzika motor túra</div>
+          <div class="subtitle">Restaurant Le Pirate</div>
+        </div>
+        <div class="btnrow">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+          <a class="btn" href="index.html">📋 Lista nézet</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="card">
+
+        <div class="h1">Restaurant Le Pirate</div>
+
+        <img class="hero-image" src="images/DAY02_03_Restaurant_Le_Pirate.jpg" alt="Restaurant Le Pirate">
+
+        <div class="highlight-box">
+          <strong>Gasztronómia a tenger kapujában.</strong> Erbalunga festői kikötőjében található ez a kultikus étterem, amely nemcsak a konyhája, hanem filmes múltja miatt is különleges. Egy falatnyi elegancia és hamisítatlan halászfalu-hangulat, mielőtt a Cap Corse vadabb, hegyi útjai felé vennénk az irányt.
+        </div>
+
+        <div class="content-section">
+          <h2>Filmes kulisszák és korzikai báj</h2>
+          <p class="p">A helyszín ismerős lehet a mozirajongóknak: itt forgatták a népszerű <strong>Nagy zűr Korzikán</strong> (L'Enquête corse) című film több jelenetét Jean Reno és Christian Clavier közreműködésével. Az étterem terasza közvetlenül a vízre néz, így az ebéd mellé jár a ringatózó csónakok és a morajló tenger látványa is. Tipikus cap-corse-i pont, ahol a megálló maga a program.</p>
+        </div>
+
+        <div class="content-section">
+          <h2>Tökéletes pihenő a gerincút előtt</h2>
+          <p class="p">Erbalunga kikötője ideális helyszín egy rövid sétához vagy egy vízparti ebédhez. A szűk utcák és a régi házak sűrű atmoszférája feltölti az utazót, mielőtt megkezdené az emelkedést a gerincen futó utak és a sziget északi csúcsát őrző látványos kilátópontok felé.</p>
+        </div>
+
+        <div class="highlight-box">
+          <h3>🔦 Megfigyelni való</h3>
+          <p class="p">Érdemes egy pillantást vetni a közvetlen közelben álló, félig romos genovai toronyra, amely Erbalunga jelképe. Figyelje meg, ahogy a modern vitorlások és a hagyományos halászbárkák megférnek egymás mellett a szűk kikötői öbölben.</p>
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.679818,9.302238" target="_blank" rel="noopener">🧭 Navigáció</a>
+          <a class="btn btn-accent" href="index.html">📋 Lista nézet</a>
+        </div>
+
+        <div class="poibtns">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+        </div>
+
+        <div id="map"></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* ===== POI ===== */
+    const POI = {
+      name: "Restaurant Le Pirate",
+      lat: 42.774262,
+      lon: 9.476360
+    };
+
+    /* ===== MAP INIT ===== */
+    const map = L.map("map").setView([POI.lat, POI.lon], 16);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "© OpenStreetMap"
+    }).addTo(map);
+
+    /* ===== POI MARKER ===== */
+    L.marker([POI.lat, POI.lon])
+      .addTo(map)
+      .bindPopup(`<b>${POI.name}</b>`)
+      .openPopup();
+
+    /* ===== USER POSITION – PIROS ===== */
+    let userMarker = null;
+
+    const userIconRed = L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        pos => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+
+          if (!userMarker) {
+            userMarker = L.marker([lat, lon], { icon: userIconRed })
+              .addTo(map)
+              .bindPopup("📍 Itt vagy most");
+          } else {
+            userMarker.setLatLng([lat, lon]);
+          }
+        },
+        err => console.log("GPS hiba:", err),
+        { enableHighAccuracy: true }
+      );
+    }
+  </script>
+
+</body>
+
+</html>

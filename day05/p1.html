@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DAY05 1. Défilé de l’Inzecca (Szurdok)</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Háttérkép ugyanaz, mint a hero image -->
+  <style>
+    body {
+      background: url("images/DAY05_01_Defile_de_l_Inzecca.jpg") center / cover no-repeat fixed;
+    }
+
+    /* térkép */
+    #map {
+      width: 100%;
+      height: 320px;
+      margin-top: 18px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="inner">
+        <div class="brand">
+          <div class="title">Korzika motor tura</div>
+          <div class="subtitle">DAY05 1. Défilé de l’Inzecca (Szurdok)</div>
+        </div>
+        <div class="btnrow">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+          <a class="btn" href="index.html">📋 Lista nézet</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container">
+      <div class="card">
+
+        <div class="h1">1. Défilé de l’Inzecca (Szurdok)</div>
+        <div class="small">42.0968250849991, 9.305939548145744</div>
+
+        <!-- HERO IMAGE -->
+        <img class="hero-image" src="images/DAY05_01_Defile_de_l_Inzecca.jpg" alt="Défilé de l’Inzecca (Szurdok)">
+
+        <div class="p">
+          Ghisoni után a Fium’Orbu folyó vájta szűk, vadregényes szurdok. Az út közvetlenül a folyó és a sziklafalak között kanyarog, zöldes vizű természetes medencékkel. A Défilé de l’Inzecca szurdokot a Fium’Orbu folyó alakította ki, amely a Monte Renoso masszívumból ered és 45,7 kilométer hosszan folyik a Földközi-tengerig. Ez a szurdok a szomszédos Défilé des Strette mellett mintegy 650 méteres tengerszint feletti magasságban található és körülbelül 4 kilométer hosszúságú. A kanyon szerpentin képződményekbe vájódott, amelyek olívazöld színű, pikkelyes megjelenésű kőzetek. A szerpentin egy metamorf kőzet, amely a Föld köpenyéből származó ultrabázikus kőzet hidratációjából és metamorf átalakulásából keletkezik. A terület Natura 2000 védett övezet, köszönhetően egyedi geológiai és flórabeli jellemzőinek, amelyek Korzikán vagy Franciaországban máshol nem ismétlődnek. A Fium’Orbu folyót kétszer duzzasztották fel öntözés és vízerőmű céljából, a Défilé de l’Inzecca a Sampolo tározó és a Trevadine gát között helyezkedik el. A szurdok meredek esésekkel és szűk átjárókkal rendelkezik, Korzika egyik legimpozánsabb kanyonja, jelentős eróziós mélységekkel. Geológiailag a kristályos Korzika részét képezi, ahol 300 millió évvel ezelőtti variszkuszi orogénia során keletkezett gránit masszívumok dominálnak. A folyó gyors vize évezredek alatt erodálta a szurdokot, zöldes árnyalatú természetes medencéket létrehozva a környező kőzetek ásványi tartalma miatt. A biodiverzitás magában foglalja a szerpentin talajokhoz alkalmazkodott endemikus korzikai flórát, amelyek tápanyagban szegények és magnéziumban gazdagok.
+        </div>
+
+        <!-- ACTION BUTTONS -->
+        <div class="poibtns">
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.0968250849991,9.305939548145744" target="_blank" rel="noopener">
+            🧭 Navigáció
+          </a>
+          <a class="btn btn-accent" href="index.html">📋 Lista nézet</a>
+        </div>
+
+        <div class="poibtns">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+        </div>
+
+        <!-- MAP – LEGALUL -->
+        <div id="map"></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* ===== POI ===== */
+    const POI = {
+      name: "Défilé de l’Inzecca (Szurdok)",
+      lat: 42.0968250849991,
+      lon: 9.305939548145744
+    };
+
+    /* ===== MAP INIT ===== */
+    const map = L.map("map").setView([POI.lat, POI.lon], 13);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "© OpenStreetMap"
+    }).addTo(map);
+
+    /* ===== POI MARKER ===== */
+    L.marker([POI.lat, POI.lon])
+      .addTo(map)
+      .bindPopup(`<b>${POI.name}</b>`);
+
+    /* ===== USER POSITION – PIROS ===== */
+    let userMarker = null;
+
+    const userIconRed = L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        pos => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+
+          if (!userMarker) {
+            userMarker = L.marker([lat, lon], { icon: userIconRed })
+              .addTo(map)
+              .bindPopup("📍 Itt vagy most");
+          } else {
+            userMarker.setLatLng([lat, lon]);
+          }
+        },
+        err => console.log("GPS hiba:", err),
+        { enableHighAccuracy: true }
+      );
+    }
+  </script>
+
+</body>
+
+</html>

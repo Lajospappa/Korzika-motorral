@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tour de Sénèque – Legenda és panoráma</title>
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    body {
+      background: url("images/DAY02_04_Tour_de_Seneque.jpg") center / cover no-repeat fixed;
+    }
+
+    /* térkép */
+    #map {
+      width: 100%;
+      height: 320px;
+      margin-top: 18px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+
+    .content-section {
+      margin-bottom: 24px;
+    }
+
+    .content-section h2 {
+      font-size: 1.4rem;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #fff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 5px;
+    }
+
+    .highlight-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #f39c12;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .highlight-box h3 {
+      font-size: 1.1rem;
+      margin-top: 0;
+      color: #ddd;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <div class="topbar">
+      <div class="inner">
+        <div class="brand">
+          <div class="title">Korzika motor túra</div>
+          <div class="subtitle">Tour de Sénèque</div>
+        </div>
+        <div class="btnrow">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+          <a class="btn" href="index.html">📋 Lista nézet</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="card">
+
+        <div class="h1">Tour de Sénèque</div>
+
+        <img class="hero-image" src="images/DAY02_04_Tour_de_Seneque.jpg" alt="Tour de Sénèque">
+
+        <div class="highlight-box">
+          <strong>Ahol a szél és a történelem találkozik.</strong> A Cap Corse gerincén, egy magányos sziklacsúcson trónoló toronyrom az egyik legkarakteresebb kilátópont a szigeten. A folyamatosan süvítő szél és a két partvidékre nyíló panoráma olyan elemi atmoszférát teremt, ami miatt ez a rövid kitérő kötelező állomás.
+        </div>
+
+        <div class="content-section">
+          <h2>Seneca és a korzikai magány</h2>
+          <p class="p">A legenda szerint Lucius Annaeus Seneca, a híres római filozófus itt töltötte nyolcéves száműzetését. Bár a ma látható torony egy későbbi, középkori építmény, a hely szelleme hűen tükrözi azt a vadságot, ami miatt Seneca "barbár sziklaként" emlegette a szigetet. A romos falak között állva könnyű átérezni a civilizációtól való távolságot és a természet erejét.</p>
+        </div>
+
+        <div class="content-section">
+          <h2>Két tenger horizontja</h2>
+          <p class="p">Ez az egyik ritka pont a félszigeten, ahonnan tiszta időben egyszerre látható a keleti és a nyugati partvidék. Az 564 méteres magasságban fekvő kilátóhelyről belátni a Luri-völgyet, a távolban pedig a Tirrén-tenger és a Ligur-tenger víztükre csillog. Rövid megállónak is tökéletes, hiszen a látvány pillanatok alatt beszippantja az embert.</p>
+        </div>
+
+        <div class="highlight-box">
+          <h3>🔦 Megfigyelni való</h3>
+          <p class="p">Figyelje meg a sziklák formáját és a növényzetet, amely teljesen alkalmazkodott az állandó, erős északnyugati szélhez. Tiszta, páramentes időben kelet felé tekintve Elba szigete, sőt néha az olasz szárazföld vonalai is felsejlenek a távolban.</p>
+        </div>
+
+        <div class="poibtns">
+          <a class="btn btn-blue" href="https://maps.google.com/?q=42.682850,9.301656" target="_blank" rel="noopener">🧭 Navigáció</a>
+          <a class="btn btn-accent" href="index.html">📋 Lista nézet</a>
+        </div>
+
+        <div class="poibtns">
+          <a class="btn" href="../index.html">🏠 Főoldal</a>
+        </div>
+
+        <div id="map"></div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* ===== POI ===== */
+    const POI = {
+      name: "Tour de Sénèque",
+      lat: 42.905365,
+      lon: 9.372800
+    };
+
+    /* ===== MAP INIT ===== */
+    const map = L.map("map").setView([POI.lat, POI.lon], 15);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "© OpenStreetMap"
+    }).addTo(map);
+
+    /* ===== POI MARKER ===== */
+    L.marker([POI.lat, POI.lon])
+      .addTo(map)
+      .bindPopup(`<b>${POI.name}</b>`)
+      .openPopup();
+
+    /* ===== USER POSITION – PIROS ===== */
+    let userMarker = null;
+
+    const userIconRed = L.icon({
+      iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+      iconSize: [25, 41],
+      iconAnchor: [12, 41]
+    });
+
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(
+        pos => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+
+          if (!userMarker) {
+            userMarker = L.marker([lat, lon], { icon: userIconRed })
+              .addTo(map)
+              .bindPopup("📍 Itt vagy most");
+          } else {
+            userMarker.setLatLng([lat, lon]);
+          }
+        },
+        err => console.log("GPS hiba:", err),
+        { enableHighAccuracy: true }
+      );
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DAY01 14. Ponte Novu</title>
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Háttérkép ugyanaz, mint a hero image -->
+    <style>
+        body {
+            background: url("images/14_Ponte_Novu.jpg") center / cover no-repeat fixed;
+        }
+
+        /* térkép – legalul */
+        #map {
+            width: 100%;
+            height: 320px;
+            margin-top: 18px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        /* ACTION BUTTONS: Főoldal külön sor */
+        .poibtns.poibtns-split {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .poibtns.poibtns-split .poibtns-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+
+        <!-- TOPBAR -->
+        <div class="topbar">
+            <div class="inner">
+                <div class="brand">
+                    <div class="title">Korzika motor tura</div>
+                    <div class="subtitle">DAY01 14. Ponte Novu</div>
+                </div>
+                <div class="btnrow">
+                    <a class="btn" href="../index.html">🏠 Főoldal</a>
+                    <a class="btn" href="index.html">📋 Lista nézet</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="container">
+            <div class="card">
+
+                <div class="h1">14. Ponte Novu</div>
+                <div class="small">42.4866, 9.2812</div>
+
+                <!-- HERO IMAGE -->
+                <img class="hero-image" src="images/14_Ponte_Novu.jpg" alt="Ponte Novu">
+
+                <div class="p">
+                    <b>Eredeti leírás:</b> A Ponte Novu a korzikai szabadságharc végső, tragikus csatájának helyszíne 1769-ben.
+                </div>
+
+                <div class="p">
+                    <b>Érdekességek:</b> Itt szenvedett döntő vereséget Paoli serege a francia hadseregtől. A híd és környezete ma nemzeti emlékhely. A táj csendje erős kontrasztban áll a történelmi események súlyával.
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="poibtns poibtns-split">
+                    <div class="poibtns-row">
+                        <a class="btn btn-blue" href="https://www.google.com/maps?q=42.4866,9.2812" target="_blank" rel="noopener">🧭 Navigáció</a>
+                        <a class="btn btn-accent" href="index.html">📋 Lista nézet</a>
+                    </div>
+                    <div class="poibtns-row">
+                        <a class="btn" href="../index.html">🏠 Főoldal</a>
+                    </div>
+                </div>
+
+                <!-- MAP – LEGALUL -->
+                <div id="map"></div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        /* ===== IMAGE FALLBACK (hero + background) ===== */
+        (function () {
+            const hero = document.querySelector(".hero-image");
+            const candidates = [
+            "images/14_Ponte_Novu.jpg",
+            "images/14_Ponte_Novu.JPG",
+            "images/14_Ponte_Novu.jpeg",
+            "images/14_Ponte_Novu.JPEG",
+            "images/14_Ponte_Novu.png",
+            "images/14_Ponte_Novu.PNG"
+            ];
+
+            function apply(src) {
+                if (hero) hero.src = src;
+                document.body.style.background = `url("${src}") center / cover no-repeat fixed`;
+            }
+
+            function tryOne(i) {
+                if (i >= candidates.length) return;
+                const src = candidates[i];
+                const img = new Image();
+                img.onload = () => apply(src);
+                img.onerror = () => tryOne(i + 1);
+                img.src = src;
+            }
+
+            tryOne(0);
+        })();
+
+        /* ===== POI ===== */
+        const POI = {
+            name: "Ponte Novu",
+            lat: 42.4866,
+            lon: 9.2812
+        };
+
+        /* ===== MAP INIT ===== */
+        const map = L.map("map").setView([POI.lat, POI.lon], 14);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution: "© OpenStreetMap"
+        }).addTo(map);
+
+        /* ===== POI MARKER ===== */
+        L.marker([POI.lat, POI.lon])
+            .addTo(map)
+            .bindPopup(`<b>${POI.name}</b>`);
+
+        /* ===== USER POSITION – PIROS ===== */
+        let userMarker = null;
+
+        const userIconRed = L.icon({
+            iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png",
+            shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+            iconSize: [25, 41],
+            iconAnchor: [12, 41]
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                pos => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+
+                    if (!userMarker) {
+                        userMarker = L.marker([lat, lon], { icon: userIconRed })
+                            .addTo(map)
+                            .bindPopup("📍 Itt vagy most");
+                    } else {
+                        userMarker.setLatLng([lat, lon]);
+                    }
+                },
+                err => console.log("GPS hiba:", err),
+                { enableHighAccuracy: true }
+            );
+        }
+    </script>
+
+</body>
+
+</html>
