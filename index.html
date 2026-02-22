@@ -415,6 +415,57 @@
       .poi-day-num { display: none; }
       .container { padding-left: 14px; padding-right: 14px; }
     }
+
+    /* ── INTRO MAP ── */
+    .intro-map-wrap {
+      flex: none;
+      width: 90px;
+      height: 140px;
+      overflow: hidden;
+      border: 1.5px solid var(--light-border);
+      position: relative;
+      align-self: center;
+    }
+    .intro-map-inner {
+      position: absolute;
+      width: 140px;
+      height: 90px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-90deg);
+    }
+    .intro-map-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      display: block;
+      filter: saturate(0.85) contrast(1.05);
+    }
+
+    /* ── DAY PHOTO STRIP ── */
+    .day-photos {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      margin: 12px -16px 0;
+      padding: 0 16px 8px;
+      scrollbar-width: none;
+    }
+    .day-photos::-webkit-scrollbar { display: none; }
+    .day-photos img {
+      flex: 0 0 56%;
+      width: 56%;
+      height: 130px;
+      object-fit: cover;
+      scroll-snap-align: start;
+      border: 1.5px solid var(--light-border);
+      display: block;
+      transition: opacity 0.2s;
+    }
+    .day-photos img:hover { opacity: 0.88; cursor: zoom-in; }
   </style>
 </head>
 
@@ -464,6 +515,11 @@
           <div class="stat-label">km</div>
         </div>
       </div>
+      <div class="intro-map-wrap">
+        <div class="intro-map-inner">
+          <img src="assets/Foldal_terkepnézet.png" alt="Korzika térkép">
+        </div>
+      </div>
     </div>
 
     <!-- SECTION LABEL -->
@@ -491,8 +547,23 @@
           <a class="btn btn-accent" href="day01/index.html">Megnyitás</a>
           <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.346651,9.013368&waypoints=42.358658,9.05998%7C42.30528,9.151193%7C42.304682,9.148414%7C42.303878,9.148548%7C42.27909033428401,9.412401967285973%7C42.376305,9.377361%7C42.374717,9.367915%7C42.382106,9.365654%7C42.423162,9.352895%7C42.427498,9.331423%7C42.437816,9.309002%7C42.435036,9.298189%7C42.463131,9.315195%7C42.4866,9.2812%7C42.487734,9.281473">🧭 GMaps navigáció</a>
           <a class="btn btn-calimoto" target="_blank" href="https://calimoto.com/calimotour/1.-korzika-2026--r-BQF4CTfR8s">🏍️ Calimoto navigáció</a>
-        </div>
-      </div>
+        </div>        <div class="day-photos">
+          <img src="day01/images/01_Scala_di_Santa_Regina_kanyon.jpg" alt="Scala di Santa Regina" loading="lazy">
+          <img src="day01/images/02_Pasquale_Paoli_szobra_Corte.jpg" alt="Paoli szobra" loading="lazy">
+          <img src="day01/images/03_Corte_citadella.jpg" alt="Corte citadella" loading="lazy">
+          <img src="day01/images/04_Belvedere_de_Corte.jpg" alt="Belvedere de Corte" loading="lazy">
+          <img src="day01/images/05_Eglise_de_Saint_Simeon.jpg" alt="Saint Simeon" loading="lazy">
+          <img src="day01/images/06_Orezza_ipari_orokseg_es_gyogyforras.jpg" alt="Orezza" loading="lazy">
+          <img src="day01/images/07_Piedicroce.jpg" alt="Piedicroce" loading="lazy">
+          <img src="day01/images/08_Couvent_dOrezza.jpg" alt="Couvent d'Orezza" loading="lazy">
+          <img src="day01/images/09_Saint_Jean_Baptiste_templom_La_Porta.jpg" alt="La Porta" loading="lazy">
+          <img src="day01/images/10_Col_de_Prato.jpg" alt="Col de Prato" loading="lazy">
+          <img src="day01/images/11_Pasquale_Paoli_szulohaza_Morosaglia.jpg" alt="Morosaglia" loading="lazy">
+          <img src="day01/images/12_Couvent_de_Morosaglia.jpg" alt="Couvent de Morosaglia" loading="lazy">
+          <img src="day01/images/13_Castello_di_Rostino.jpg" alt="Castello di Rostino" loading="lazy">
+          <img src="day01/images/14_Ponte_Novu.jpg" alt="Ponte Novu" loading="lazy">
+          <img src="day01/images/15_Village_Miniature_de_Carcheto.jpg" alt="Carcheto" loading="lazy">
+        </div>      </div>
 
       <!-- DAY 02 -->
       <div class="poi" data-day="2">
@@ -513,8 +584,15 @@
           <a class="btn btn-accent" href="day02/index.html">Megnyitás</a>
           <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.346651,9.013368&waypoints=42.695411,9.449519%7C42.774262,9.47636%7C42.905365,9.3728%7C42.68285,9.301656%7C42.679818,9.302238%7C42.6280844,9.3561684%7C42.67712,9.38276%7C42.5416879,9.2976771">🧭 GMaps navigáció</a>
           <a class="btn btn-calimoto" target="_blank" href="https://calimoto.com/calimotour/2.-korzika-2026-r-s4vsniB8f0">🏍️ Calimoto navigáció</a>
-        </div>
-      </div>
+        </div>        <div class="day-photos">
+          <img src="day02/images/DAY02_01_Les_Chalets_De_Lozzi.jpg" alt="Les Chalets De Lozzi" loading="lazy">
+          <img src="day02/images/DAY02_02_Le_Vieux_Port_de_Bastia.jpg" alt="Vieux Port de Bastia" loading="lazy">
+          <img src="day02/images/DAY02_03_Restaurant_Le_Pirate.jpg" alt="Le Pirate" loading="lazy">
+          <img src="day02/images/DAY02_04_Tour_de_Seneque.jpg" alt="Tour de Sénèque" loading="lazy">
+          <img src="day02/images/DAY02_05_Saint_Florent_genovai_citadella.jpg" alt="Saint-Florent citadella" loading="lazy">
+          <img src="day02/images/DAY02_06_Saint_Florent_obol.jpg" alt="Saint-Florent öböl" loading="lazy">
+          <img src="day02/images/DAY02_07_Col_de_Teghime.jpg" alt="Col de Teghime" loading="lazy">
+        </div>      </div>
 
       <!-- DAY 03 -->
       <div class="poi" data-day="3">
@@ -536,8 +614,19 @@
           <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.568253,8.760439&waypoints=42.5562767,9.0582241%7C42.59334,9.048421%7C42.635741,8.938554%7C42.599313,8.902105%7C42.58233,8.897603%7C42.58897,8.905409">🧭 GMaps navigáció 1</a>
           <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.568253,8.760439&destination=42.346651,9.013368&waypoints=42.552313,8.73673%7C42.423234,8.723949%7C42.266531,8.705166%7C42.251334,8.761211%7C42.290453,8.87833">🧭 GMaps navigáció 2</a>
           <a class="btn btn-calimoto" target="_blank" href="https://calimoto.com/calimotour/3.-korzika-2023-r-pDy5WIBTHm">🏍️ Calimoto navigáció</a>
-        </div>
-      </div>
+        </div>        <div class="day-photos">
+          <img src="day03/images/DAY03_01_Gare_de_Palasca.jpg" alt="Gare de Palasca" loading="lazy">
+          <img src="day03/images/DAY03_02_L_Ile_Rousse.jpg" alt="Île Rousse" loading="lazy">
+          <img src="day03/images/DAY03_03_A_Casarella_Nonza.jpg" alt="Nonza" loading="lazy">
+          <img src="day03/images/DAY03_04_Eglise_de_la_Trinite_Aregno.jpg" alt="Aregno" loading="lazy">
+          <img src="day03/images/DAY03_05_Sant_Antonino.jpg" alt="Sant'Antonino" loading="lazy">
+          <img src="day03/images/DAY03_06_Calvi_citadella.jpg" alt="Calvi citadella" loading="lazy">
+          <img src="day03/images/DAY03_07_Notre_Dame_de_la_Serra.jpg" alt="Notre-Dame de la Serra" loading="lazy">
+          <img src="day03/images/DAY03_08_Fango_volgy.jpg" alt="Fango völgy" loading="lazy">
+          <img src="day03/images/DAY03_09_Porto_obol.jpg" alt="Porto öböl" loading="lazy">
+          <img src="day03/images/DAY03_10_Gorges_de_la_Spelunca.jpg" alt="Spelunca" loading="lazy">
+          <img src="day03/images/DAY03_11_Statue_du_Christ_Roi .jpg" alt="Christ Roi" loading="lazy">
+        </div>      </div>
 
       <!-- DAY 04 -->
       <div class="poi" data-day="4">
@@ -559,8 +648,19 @@
           <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.465,9.102&waypoints=42.334361,9.019304%7C42.35831,9.05857%7C42.3883538,9.2868123%7C42.437817,9.309028%7C42.462267,9.206204%7C42.477176,9.185817">🧭 GMaps navigáció 1</a>
           <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.465,9.102&destination=42.346651,9.013368&waypoints=42.452898,9.032729%7C42.4468195,9.0314827%7C42.437039,8.995992%7C42.424618,8.965808%7C42.403298,8.921027">🧭 GMaps navigáció 2</a>
           <a class="btn btn-calimoto" target="_blank" href="https://calimoto.com/calimotour/4.-korzika-2026-r-iphkKiv9zZ">🏍️ Calimoto navigáció</a>
-        </div>
-      </div>
+        </div>        <div class="day-photos">
+          <img src="day04/images/DAY04_01_Lac_de_Calacuccia.jpg" alt="Lac de Calacuccia" loading="lazy">
+          <img src="day04/images/DAY04_02_Scala_di_Santa_Regina.jpg" alt="Scala di Santa Regina" loading="lazy">
+          <img src="day04/images/DAY04_03_Morosaglia.jpg" alt="Morosaglia" loading="lazy">
+          <img src="day04/images/DAY04_04_Ponte_Leccia_Csomopont.jpg" alt="Ponte Leccia" loading="lazy">
+          <img src="day04/images/DAY04_05_Vallee_de_l_Asco_bejarat.jpg" alt="Asco völgy bejárat" loading="lazy">
+          <img src="day04/images/DAY04_06_Gorges_de_lAsco_Also_szakasz.jpg" alt="Gorges de l'Asco" loading="lazy">
+          <img src="day04/images/DAY04_07_Asco_Falu.jpg" alt="Asco" loading="lazy">
+          <img src="day04/images/DAY04_08_Pont_Genois_dAsco_Genovai_hid_Asco_alatt.jpg" alt="Genovai híd" loading="lazy">
+          <img src="day04/images/DAY04_09_Pont_de_Roggia_Roggia_hid.jpg" alt="Pont de Roggia" loading="lazy">
+          <img src="day04/images/DAY04_10_Maison_du_Mouflon_Muflon_haz.jpg" alt="Muflon ház" loading="lazy">
+          <img src="day04/images/DAY04_11_Station_du_Haut_Asco_Haut_Asco_siallomas_es_Stagnu_fennsik.jpg" alt="Haut Asco" loading="lazy">
+        </div>      </div>
 
       <!-- DAY 05 -->
       <div class="poi" data-day="5">
@@ -582,8 +682,19 @@
           <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=41.7509696,9.17174&waypoints=42.0968251,9.3059395%7C42.095575,9.281474%7C41.910946,9.388454%7C41.858166,9.402219%7C41.833717,9.313208%7C41.795841,9.224671">🧭 GMaps navigáció 1</a>
           <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=41.7509696,9.17174&destination=42.346651,9.013368&waypoints=41.9175533,9.1343541%7C42.100623,9.210653%7C42.144107,9.1904057%7C42.172115,9.17106%7C42.193181,9.16763">🧭 GMaps navigáció 2</a>
           <a class="btn btn-calimoto" target="_blank" href="https://calimoto.com/calimotour/5.-korzika-2026-r-Ma6rAt8Teg">🏍️ Calimoto navigáció</a>
-        </div>
-      </div>
+        </div>        <div class="day-photos">
+          <img src="day05/images/DAY05_01_Defile_de_l_Inzecca.jpg" alt="Défilé de l'Inzecca" loading="lazy">
+          <img src="day05/images/DAY05_02_Lac_de_Sampolo.jpg" alt="Lac de Sampolo" loading="lazy">
+          <img src="day05/images/DAY05_03_Ghisonaccia_T10.jpg" alt="Ghisonaccia" loading="lazy">
+          <img src="day05/images/DAY05_04_Solenzara.jpg" alt="Solenzara" loading="lazy">
+          <img src="day05/images/DAY05_05_Gorges_de_la_Solenzara.jpg" alt="Gorges de la Solenzara" loading="lazy">
+          <img src="day05/images/DAY05_06_Col_de_Bavella.jpg" alt="Col de Bavella" loading="lazy">
+          <img src="day05/images/DAY05_07_Zonza.jpg" alt="Zonza" loading="lazy">
+          <img src="day05/images/DAY05_08_Ghisoni.jpg" alt="Ghisoni" loading="lazy">
+          <img src="day05/images/DAY05_09_Col_de_Sorba.jpg" alt="Col de Sorba" loading="lazy">
+          <img src="day05/images/DAY05_10_Vivario.jpg" alt="Vivario" loading="lazy">
+          <img src="day05/images/DAY05_11_Pont_du_Vecchio.jpg" alt="Pont du Vecchio" loading="lazy">
+        </div>      </div>
 
     </div><!-- /grid -->
 
@@ -651,6 +762,16 @@
     }
 
     img.complete?init():img.addEventListener("load",init);
+
+    // Shuffle photo strips on every load
+    document.querySelectorAll('.day-photos').forEach(strip => {
+      const imgs = [...strip.children];
+      for (let i = imgs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [imgs[i], imgs[j]] = [imgs[j], imgs[i]];
+      }
+      imgs.forEach(img => strip.appendChild(img));
+    });
 
     let rt=null;
     window.addEventListener("resize",()=>{
