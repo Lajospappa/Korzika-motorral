@@ -1,196 +1,372 @@
 <!DOCTYPE html>
 <html lang="hu">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Korzika 2026</title>
 
   <style>
-    /* ===== RESET ===== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Barlow:ital,wght@0,400;0,600;1,400;1,600&family=Playfair+Display:ital,wght@1,700&display=swap');
+
+    :root {
+      --green:        #009246;
+      --red:          #ce2b37;
+      --yellow:       #FFD600;
+      --dark:         #111111;
+      --paper:        #f5f3ee;
+      --paper-dark:   #e8e5df;
+      --white:        #ffffff;
+      --light-border: #d4d0c8;
+      --mid-gray:     #555555;
+      --ink:          #111111;
+      --muted:        #777777;
+      --blue:         #2d7ff9;
     }
 
-    /* ===== BODY + BACKGROUND ===== */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { overflow-y: auto; }
+
     body {
-      font-family: "Georgia", serif;
-      background: url("assets/banner_home.jpg") center/cover no-repeat fixed;
-      color: #f3f3f3;
+      font-family: 'Barlow', Georgia, sans-serif;
+      color: var(--ink);
+      background: #d8d5cf;
+      background-image: repeating-linear-gradient(
+        45deg, transparent, transparent 20px,
+        rgba(0,0,0,0.012) 20px, rgba(0,0,0,0.012) 40px
+      );
+      line-height: 1.7;
+      font-size: 16px;
     }
 
-    /* ===== LAYOUT ===== */
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
     .page {
+      max-width: 980px;
+      margin: 0 auto;
+      background: var(--paper);
+      box-shadow: 0 12px 80px rgba(0,0,0,0.28);
       min-height: 100vh;
-    }
-
-    /* ===== TOPBAR ===== */
-    .topbar {
-      background: rgba(10, 10, 10, 0.9);
-      border-bottom: 1px solid #333;
-    }
-
-    .topbar .inner {
-      max-width: 1100px;
-      margin: auto;
-      padding: 14px 20px;
       display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--dark);
+      color: white;
+    }
+    .topbar .inner {
+      padding: 9px 20px;
+      display: flex;
+      gap: 12px;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
     }
-
     .brand .title {
-      font-size: 22px;
-      font-weight: bold;
-      color: #ffb300;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
-
     .brand .subtitle {
-      font-size: 13px;
-      opacity: 0.8;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      color: white;
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+    }
+    .topbar-stripe {
+      display: flex;
+      height: 3px;
+    }
+    .topbar-stripe span { flex: 1; }
+    .topbar-stripe span:nth-child(1) { background: var(--green); }
+    .topbar-stripe span:nth-child(2) { background: white; }
+    .topbar-stripe span:nth-child(3) { background: var(--red); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+      background: #111;
+    }
+    .hero img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.72;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.05) 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px 24px 22px;
+    }
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 5px;
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(38px, 8vw, 68px);
+      letter-spacing: 0.04em;
+      color: white;
+      line-height: 0.92;
+    }
+    .hero-title em {
+      color: var(--yellow);
+      font-style: normal;
     }
 
-    /* ===== BUTTONS ===== */
-    .btn {
-      display: inline-block;
-      text-decoration: none;
-      padding: 10px 18px;
-      border-radius: 18px;
-      font-weight: bold;
-      font-size: 14px;
-      transition: background 0.2s ease, transform 0.15s ease;
-      margin-right: 10px;
-      margin-top: 8px;
-    }
-
-    .btn-accent {
-      background: #ffb300;
-      color: #111;
-    }
-
-    .btn-accent:hover {
-      background: #ffca4d;
-      transform: translateY(-1px);
-    }
-
-    /* GMaps NAV gomb (mintaképes kék) */
-    .btn-nav {
-      background: #2f6fe6;
-      color: #fff;
-      border: 0;
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
-    }
-
-    .btn-nav:hover {
-      background: #3a7bf0;
-      transform: translateY(-1px);
-    }
-
-    /* Calimoto gomb (piros) */
-    .btn-calimoto {
-      background: #ff2b2b;
-      color: #fff;
-      border: 0;
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
-    }
-
-    .btn-calimoto:hover {
-      background: #ff4a4a;
-      transform: translateY(-1px);
-    }
-
-    /* ===== CONTENT ===== */
+    /* ── CONTAINER ── */
     .container {
-      max-width: 1100px;
-      margin: 60px auto;
-      padding: 0 20px;
+      padding: 22px 24px 80px;
+      flex: 1;
     }
 
-    /* KÉRT FINOMÍTÁS: ne legyen ennyire sötét, mert a keret is sötétít */
-    .card {
-      background: rgba(0, 0, 0, 0.58);
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    /* ── SECTION LABEL ── */
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--light-border);
     }
 
-    .h1 {
-      font-size: 28px;
-      margin-bottom: 12px;
+    /* ── INTRO ── */
+    .intro-block {
+      background: white;
+      border: 2px solid var(--light-border);
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .intro-text-col { flex: 1; min-width: 200px; }
+    .intro-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.9rem;
+      letter-spacing: 0.03em;
+      color: var(--dark);
+      line-height: 1.05;
+      margin-bottom: 5px;
+    }
+    .intro-body {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.95rem;
+      color: #333;
+      line-height: 1.65;
+    }
+    .intro-stats {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .stat-item { text-align: center; }
+    .stat-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: 0.02em;
+      color: var(--green);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 1px;
     }
 
-    .p {
-      line-height: 1.6;
-      opacity: 0.9;
+    /* ── BUTTONS ── */
+    .btn {
+      appearance: none;
+      border: 2px solid var(--light-border);
+      background: var(--paper);
+      color: var(--ink);
+      padding: 7px 13px;
+      border-radius: 0;
+      cursor: pointer;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.15s;
     }
+    .btn:hover {
+      border-color: var(--dark);
+      background: var(--paper-dark);
+      text-decoration: none;
+    }
+    .btn-accent {
+      background: var(--green) !important;
+      color: white !important;
+      border-color: var(--green) !important;
+    }
+    .btn-accent:hover { filter: brightness(0.92); }
+    .btn-nav {
+      background: var(--blue) !important;
+      color: white !important;
+      border-color: var(--blue) !important;
+    }
+    .btn-nav:hover { filter: brightness(0.92); }
+    .btn-calimoto {
+      background: var(--red) !important;
+      color: white !important;
+      border-color: var(--red) !important;
+    }
+    .btn-calimoto:hover { filter: brightness(0.92); }
 
-    /* ===== GRID ===== */
+    /* ── GRID / DAY CARDS ── */
     .grid {
-      margin-top: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .poi {
-      background: linear-gradient(180deg, #111, #050505);
-      border-radius: 16px;
-      padding: 22px;
-      border: 1px solid #222;
-      margin-bottom: 18px;
+      background: white;
+      border: 2px solid var(--light-border);
+      border-radius: 0;
+      padding: 14px 16px;
+      position: relative;
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
+    .poi:hover {
+      border-color: #aaa;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.07);
+    }
+    .poi[data-day="1"] { border-left: 4px solid var(--green); }
+    .poi[data-day="2"] { border-left: 4px solid var(--blue); }
+    .poi[data-day="3"] { border-left: 4px solid #e09000; }
+    .poi[data-day="4"] { border-left: 4px solid var(--red); }
+    .poi[data-day="5"] { border-left: 4px solid #7c4dab; }
 
     .poi-head {
       display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
+      gap: 12px;
+      align-items: flex-start;
     }
+    .poi-day-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      line-height: 1;
+      color: var(--paper-dark);
+      flex: none;
+      width: 42px;
+      text-align: center;
+      transition: color 0.15s;
+      user-select: none;
+    }
+    .poi:hover .poi-day-num { color: #ccc; }
+
+    .poi-info { flex: 1; min-width: 0; }
 
     .poi-title {
-      font-size: 20px;
-      font-weight: bold;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.12rem;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      color: #111;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
+    .poi-meta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 7px;
+    }
+    .poi-meta-item {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--mid-gray);
+    }
+    .poi-meta-item b { color: var(--ink); font-weight: 800; }
+
+    .poi-desc {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.88rem;
+      font-style: italic;
+      color: #555;
+      line-height: 1.6;
     }
 
-    .coords {
-      font-size: 14px;
-      opacity: 0.85;
-      line-height: 1.45;
-    }
-
-    .coords b {
-      color: #ffb300;
-      font-weight: bold;
-    }
-
-    /* ===== POI BUTTONS ===== */
     .poibtns {
-      margin-top: 18px;
+      margin-top: 11px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
     }
 
-    /* ===== TOUR MAP (BOTTOM) ===== */
+    /* fade-in animation */
+    .poi { animation: fadeUp 0.4s both; }
+    .poi:nth-child(1) { animation-delay: .04s; }
+    .poi:nth-child(2) { animation-delay: .10s; }
+    .poi:nth-child(3) { animation-delay: .16s; }
+    .poi:nth-child(4) { animation-delay: .22s; }
+    .poi:nth-child(5) { animation-delay: .28s; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TOUR MAP ── */
     .tourmap-section {
       margin-top: 26px;
       padding-top: 18px;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      border-top: 2px solid var(--light-border);
     }
-
     .tourmap-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 12px;
-      opacity: 0.95;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+      color: var(--dark);
+      margin-bottom: 10px;
     }
-
     .tourmap-wrap {
       position: relative;
       width: 100%;
-      border-radius: 16px;
+      border: 2px solid var(--light-border);
       overflow: hidden;
-      border: 1px solid #222;
-      background: #050505;
-      box-shadow: 0 0 24px rgba(0, 0, 0, 0.45);
+      background: var(--paper-dark);
     }
-
     .tourmap-img {
       display: block;
       width: 100%;
@@ -198,404 +374,298 @@
       user-select: none;
       -webkit-user-drag: none;
     }
-
     .tourmap-marker {
       position: absolute;
-      left: 0;
-      top: 0;
-      width: 18px;
-      height: 18px;
+      left: 0; top: 0;
+      width: 16px; height: 16px;
       border-radius: 50%;
-      background: #ff2b2b;
-      border: 2px solid rgba(255, 255, 255, 0.95);
-      box-shadow: 0 0 18px rgba(255, 43, 43, 0.9);
+      background: var(--red);
+      border: 2px solid white;
+      box-shadow: 0 0 0 3px rgba(206,43,55,0.3), 0 0 14px rgba(206,43,55,0.7);
       transform: translate(-50%, -50%);
       pointer-events: none;
       display: none;
     }
-
-    .tourmap-note {
-      margin-top: 12px;
-      font-size: 13px;
-      opacity: 0.85;
-      line-height: 1.45;
+    .tourmap-marker::after {
+      content: "";
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(206,43,55,0.4);
+      animation: pulse 2s infinite;
     }
+    @keyframes pulse {
+      0%   { transform: scale(1); opacity: .7; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+    .tourmap-note {
+      margin-top: 8px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.03em;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .tourmap-note b { color: var(--ink); }
 
-    .tourmap-note b {
-      color: #ffb300;
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .intro-block { flex-direction: column; }
+      .hero { height: 200px; }
+      .poi-day-num { display: none; }
+      .container { padding-left: 14px; padding-right: 14px; }
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
+<div class="page">
 
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <div class="inner">
-        <div class="brand">
-          <div class="title">Korzika 2026</div>
-          <div class="subtitle">Főoldal</div>
-        </div>
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="inner">
+      <div class="brand">
+        <div class="title">Korzika 2026</div>
+        <div class="subtitle">La Strada · Főoldal</div>
       </div>
     </div>
-
-    <!-- CONTENT -->
-    <div class="container">
-      <div class="card">
-
-        <div class="h1">Útiterv</div>
-
-        <div class="p">
-          Itt az öt nap belépő oldala van. Minden napon belül van lista nézet,
-          és minden helyszínnek külön oldala.
-        </div>
-
-        <div class="grid">
-
-          <!-- DAY01 -->
-          <div class="poi">
-            <div class="poi-head">
-              <div>
-                <div class="poi-title">1. nap · Castagniccia, Corte, Ponte Novu</div>
-                <div class="coords">
-                  <b>15 megálló</b><br>
-                  <b>200km</b><br>
-                  <b>6351m emelkedés</b> <b>6345m ereszkedés</b><br>
-                  A Scala di Santa Regina szurdoka után Corte történelmi magja adja a nap gerincét, majd a Castagniccia barokk és függetlenségtörténeti pontjai következnek. A Ponte Novu csatatérnél a táj csendje különösen erős kontraszt a történelmi súllyal.
-                </div>
-              </div>
-            </div>
-
-            <div class="poibtns">
-              <a class="btn btn-accent" href="day01/index.html">Megnyitás</a>
-              <a class="btn btn-nav" target="_blank"
-                href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.346651,9.013368&waypoints=42.358658,9.05998%7C42.30528,9.151193%7C42.304682,9.148414%7C42.303878,9.148548%7C42.27909033428401,9.412401967285973%7C42.376305,9.377361%7C42.374717,9.367915%7C42.382106,9.365654%7C42.423162,9.352895%7C42.427498,9.331423%7C42.437816,9.309002%7C42.435036,9.298189%7C42.463131,9.315195%7C42.4866,9.2812%7C42.487734,9.281473">🧭 GMaps navigáció</a>
-              <a class="btn btn-calimoto" target="_blank"
-                href="https://calimoto.com/calimotour/1.-korzika-2026--r-BQF4CTfR8s">🏍️ Calimoto navigáció</a>
-            </div>
-          </div>
-
-          <!-- DAY02 -->
-          <div class="poi">
-            <div class="poi-head">
-              <div>
-                <div class="poi-title">2. nap · Bastia, Cap Corse, Saint Florent, Niolo</div>
-                <div class="coords">
-                  <b>10 megálló</b><br>
-                  <b>304km</b><br>
-                  <b>7298m emelkedés</b> <b>7277m ereszkedés</b><br>
-                  Bastia régi kikötőjétől a Cap Corse gerincének tornyaiig gyorsan felépül a tengeri karakter, Nonza sziklapárkánya pedig ikonikus kontraszt. A Teghime hágó után Murato román temploma ritmusváltás, a nap végére Lozzi már hegyvidéki bázis hangulat.
-                </div>
-              </div>
-            </div>
-
-            <div class="poibtns">
-              <a class="btn btn-accent" href="day02/index.html">Megnyitás</a>
-              <a class="btn btn-nav" target="_blank"
-                href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.346651,9.013368&waypoints=42.695411,9.449519%7C42.774262,9.47636%7C42.905365,9.3728%7C42.68285,9.301656%7C42.679818,9.302238%7C42.6280844,9.3561684%7C42.67712,9.38276%7C42.5416879,9.2976771">🧭 GMaps navigáció</a>
-              <a class="btn btn-calimoto" target="_blank"
-                href="https://calimoto.com/calimotour/2.-korzika-2026-r-s4vsniB8f0">🏍️ Calimoto navigáció</a>
-            </div>
-          </div>
-
-          <!-- DAY03 -->
-          <div class="poi">
-            <div class="poi-head">
-              <div>
-                <div class="poi-title">3. nap · Balagne, Calvi, Porto, Vergio, Niolo</div>
-                <div class="coords">
-                  <b>12 megálló</b><br>
-                  <b>275km</b><br>
-                  <b>6592m emelkedés</b> <b>6590m ereszkedés</b><br>
-                  A Paoli alapította Île Rousse és a Calvi citadella után a nyugati part UNESCO tájai viszik a főszerepet, Porto és a Spelunca szurdok látványával. A Vergio környéki magashegyi réteg és a Christ Roi szobor már előkészíti a Niolo fennsík hűvösebb világát.
-                </div>
-              </div>
-            </div>
-
-            <div class="poibtns">
-              <a class="btn btn-accent" href="day03/index.html">Megnyitás</a>
-              <a class="btn btn-nav" target="_blank"
-                href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.568253,8.760439&waypoints=42.5562767,9.0582241%7C42.59334,9.048421%7C42.635741,8.938554%7C42.599313,8.902105%7C42.58233,8.897603%7C42.58897,8.905409">🧭 GMaps navigáció 1</a>
-              <a class="btn btn-nav" target="_blank"
-                href="https://www.google.com/maps/dir/?api=1&origin=42.568253,8.760439&destination=42.346651,9.013368&waypoints=42.552313,8.73673%7C42.423234,8.723949%7C42.266531,8.705166%7C42.251334,8.761211%7C42.290453,8.87833">🧭 GMaps navigáció 2</a>
-              <a class="btn btn-calimoto" target="_blank"
-                href="https://calimoto.com/calimotour/3.-korzika-2023-r-pDy5WIBTHm">🏍️ Calimoto navigáció</a>
-            </div>
-          </div>
-
-          <!-- DAY04 -->
-          <div class="poi">
-            <div class="poi-head">
-              <div>
-                <div class="poi-title">4. nap · Niolo, Calacuccia tó, Asco völgy, Haut Asco</div>
-                <div class="coords">
-                  <b>16 megálló</b><br>
-                  <b>187km</b><br>
-                  <b>5398m emelkedés</b> <b>5394m ereszkedés</b><br>
-                  A Calacuccia gát és a Scala di Santa Regina szurdok műszaki és táji értelemben is nagy napkezdés, utána az Asco völgy szűkületei adják a technikás motoros élményt. A genovai kőhíd és Haut Asco alpesi tere már a Monte Cinto tömegének közvetlen közelsége.
-                </div>
-              </div>
-            </div>
-
-            <div class="poibtns">
-              <a class="btn btn-accent" href="day04/index.html">Megnyitás</a>
-              <a class="btn btn-nav" target="_blank"
-                href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.465,9.102&waypoints=42.334361,9.019304%7C42.35831,9.05857%7C42.3883538,9.2868123%7C42.437817,9.309028%7C42.462267,9.206204%7C42.477176,9.185817">🧭 GMaps navigáció 1</a>
-              <a class="btn btn-nav" target="_blank"
-                href="https://www.google.com/maps/dir/?api=1&origin=42.465,9.102&destination=42.346651,9.013368&waypoints=42.452898,9.032729%7C42.4468195,9.0314827%7C42.437039,8.995992%7C42.424618,8.965808%7C42.403298,8.921027">🧭 GMaps navigáció 2</a>
-              <a class="btn btn-calimoto" target="_blank"
-                href="https://calimoto.com/calimotour/4.-korzika-2026-r-iphkKiv9zZ">🏍️ Calimoto navigáció</a>
-            </div>
-          </div>
-
-          <!-- DAY05 -->
-          <div class="poi">
-            <div class="poi-head">
-              <div>
-                <div class="poi-title">5. nap · Keleti part, Solenzara, Bavella hágó, Zonza</div>
-                <div class="coords">
-                  <b>15 megálló</b><br>
-                  <b>340km</b><br>
-                  <b>9903m emelkedés</b> <b>9875m ereszkedés</b><br>
-                  A belső hegyvidékről a Défilé de l’Inzecca és a Sampolo tó hozza le az útvonalat a keleti síkra, majd Solenzara után visszafordul a hegyekbe. A Bavella hágó és a tűk drámai sziluettje a nap vizuális csúcspontja, Zonza pedig stabil bázis a magashegyi hangulat után.
-                </div>
-              </div>
-            </div>
-
-            <div class="poibtns">
-              <a class="btn btn-accent" href="day05/index.html">Megnyitás</a>
-              <a class="btn btn-nav" target="_blank"
-                href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=41.7509696,9.17174&waypoints=42.0968251,9.3059395%7C42.095575,9.281474%7C41.910946,9.388454%7C41.858166,9.402219%7C41.833717,9.313208%7C41.795841,9.224671">🧭 GMaps navigáció 1</a>
-              <a class="btn btn-nav" target="_blank"
-                href="https://www.google.com/maps/dir/?api=1&origin=41.7509696,9.17174&destination=42.346651,9.013368&waypoints=41.9175533,9.1343541%7C42.100623,9.210653%7C42.144107,9.1904057%7C42.172115,9.17106%7C42.193181,9.16763">🧭 GMaps navigáció 2</a>
-              <a class="btn btn-calimoto" target="_blank"
-                href="https://calimoto.com/calimotour/5.-korzika-2026-r-Ma6rAt8Teg">🏍️ Calimoto navigáció</a>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- TOUR MAP BOTTOM -->
-        <div class="tourmap-section">
-          <div class="tourmap-title">Teljes túra térkép (aktuális pozíció jelöléssel)</div>
-
-          <div class="tourmap-wrap" id="tourMapWrap">
-            <img class="tourmap-img" id="tourMapImg" src="assets/Foldal_terkepnézet.png" alt="Korzika 2026 teljes térkép">
-            <div class="tourmap-marker" id="tourMarker" aria-hidden="true"></div>
-          </div>
-
-          <div class="tourmap-note" id="tourMapNote">
-            <b>Megjegyzés:</b> a piros jelölő a böngésző helymeghatározása alapján jelenik meg. Ha a helymeghatározás tiltva van, a jelölő nem fog látszani.
-          </div>
-        </div>
-
-      </div>
-    </div>
-
+    <div class="topbar-stripe"><span></span><span></span><span></span></div>
   </div>
 
-  <script>
-    (function () {
-      const img = document.getElementById("tourMapImg");
-      const marker = document.getElementById("tourMarker");
-      const note = document.getElementById("tourMapNote");
+  <!-- HERO -->
+  <div class="hero">
+    <img src="assets/banner_home.jpg" alt="Korzika">
+    <div class="hero-overlay">
+      <div class="hero-eyebrow">Motoros Túra · 2026 · L'Île de Beauté</div>
+      <div class="hero-title"><em>Korzika</em> 2026<br>Útiterv</div>
+    </div>
+  </div>
 
-      const controlPoints = [
-        { name: "Zonza", lat: 41.750806, lon: 9.174782, x: 446, y: 534 },
-        { name: "Lozzi", lat: 42.347554, lon: 9.019212, x: 1095, y: 393 },
-        { name: "Nyugati part pont", lat: 42.326667, lon: 8.635438, x: 1073, y: 82 },
-        { name: "Cap Corse pont", lat: 42.976269, lon: 9.382087, x: 1799, y: 670 },
-        { name: "Belső pont", lat: 42.397793, lon: 8.920860, x: 1153, y: 315 },
-        { name: "Solenzara környéke", lat: 41.865698, lon: 9.396649, x: 575, y: 718 }
-      ];
+  <!-- CONTENT -->
+  <div class="container">
 
-      function clamp(v, min, max) {
-        return Math.max(min, Math.min(max, v));
-      }
+    <!-- INTRO -->
+    <div class="intro-block">
+      <div class="intro-text-col">
+        <div class="intro-heading">5 Nap · 5 Fejezet</div>
+        <p class="intro-body">Minden naphoz részletes POI-lista, navigációs linkek és helyszínenként külön oldal. A térkép valós idejű GPS-pozíciót jelez.</p>
+      </div>
+      <div class="intro-stats">
+        <div class="stat-item">
+          <div class="stat-value">5</div>
+          <div class="stat-label">Nap</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">68</div>
+          <div class="stat-label">Megálló</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">1 306</div>
+          <div class="stat-label">km</div>
+        </div>
+      </div>
+    </div>
 
-      function invert3x3(m) {
-        const a = m[0][0], b = m[0][1], c = m[0][2];
-        const d = m[1][0], e = m[1][1], f = m[1][2];
-        const g = m[2][0], h = m[2][1], i = m[2][2];
+    <!-- SECTION LABEL -->
+    <div class="section-label">Napok menetrend szerint</div>
 
-        const A = (e * i - f * h);
-        const B = -(d * i - f * g);
-        const C = (d * h - e * g);
-        const D = -(b * i - c * h);
-        const E = (a * i - c * g);
-        const F = -(a * h - b * g);
-        const G = (b * f - c * e);
-        const H = -(a * f - c * d);
-        const I = (a * e - b * d);
+    <!-- GRID -->
+    <div class="grid">
 
-        const det = a * A + b * B + c * C;
-        if (Math.abs(det) < 1e-12) return null;
+      <!-- DAY 01 -->
+      <div class="poi" data-day="1">
+        <div class="poi-head">
+          <div class="poi-day-num">01</div>
+          <div class="poi-info">
+            <div class="poi-title">1. nap · Castagniccia, Corte, Ponte Novu</div>
+            <div class="poi-meta-row">
+              <span class="poi-meta-item">📍 <b>15</b> megálló</span>
+              <span class="poi-meta-item">↔ <b>200 km</b></span>
+              <span class="poi-meta-item">▲ <b>6 351 m</b></span>
+              <span class="poi-meta-item">▼ <b>6 345 m</b></span>
+            </div>
+            <div class="poi-desc">A Scala di Santa Regina szurdoka után Corte történelmi magja adja a nap gerincét, majd a Castagniccia barokk és függetlenségtörténeti pontjai következnek. A Ponte Novu csatatérnél a táj csendje különösen erős kontraszt a történelmi súllyal.</div>
+          </div>
+        </div>
+        <div class="poibtns">
+          <a class="btn btn-accent" href="day01/index.html">Megnyitás</a>
+          <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.346651,9.013368&waypoints=42.358658,9.05998%7C42.30528,9.151193%7C42.304682,9.148414%7C42.303878,9.148548%7C42.27909033428401,9.412401967285973%7C42.376305,9.377361%7C42.374717,9.367915%7C42.382106,9.365654%7C42.423162,9.352895%7C42.427498,9.331423%7C42.437816,9.309002%7C42.435036,9.298189%7C42.463131,9.315195%7C42.4866,9.2812%7C42.487734,9.281473">🧭 GMaps navigáció</a>
+          <a class="btn btn-calimoto" target="_blank" href="https://calimoto.com/calimotour/1.-korzika-2026--r-BQF4CTfR8s">🏍️ Calimoto navigáció</a>
+        </div>
+      </div>
 
-        const invDet = 1 / det;
-        return [
-          [A * invDet, D * invDet, G * invDet],
-          [B * invDet, E * invDet, H * invDet],
-          [C * invDet, F * invDet, I * invDet]
-        ];
-      }
+      <!-- DAY 02 -->
+      <div class="poi" data-day="2">
+        <div class="poi-head">
+          <div class="poi-day-num">02</div>
+          <div class="poi-info">
+            <div class="poi-title">2. nap · Bastia, Cap Corse, Saint Florent, Niolo</div>
+            <div class="poi-meta-row">
+              <span class="poi-meta-item">📍 <b>10</b> megálló</span>
+              <span class="poi-meta-item">↔ <b>304 km</b></span>
+              <span class="poi-meta-item">▲ <b>7 298 m</b></span>
+              <span class="poi-meta-item">▼ <b>7 277 m</b></span>
+            </div>
+            <div class="poi-desc">Bastia régi kikötőjétől a Cap Corse gerincének tornyaiig gyorsan felépül a tengeri karakter, Nonza sziklapárkánya pedig ikonikus kontraszt. A Teghime hágó után Murato román temploma ritmusváltás, a nap végére Lozzi már hegyvidéki bázis hangulat.</div>
+          </div>
+        </div>
+        <div class="poibtns">
+          <a class="btn btn-accent" href="day02/index.html">Megnyitás</a>
+          <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.346651,9.013368&waypoints=42.695411,9.449519%7C42.774262,9.47636%7C42.905365,9.3728%7C42.68285,9.301656%7C42.679818,9.302238%7C42.6280844,9.3561684%7C42.67712,9.38276%7C42.5416879,9.2976771">🧭 GMaps navigáció</a>
+          <a class="btn btn-calimoto" target="_blank" href="https://calimoto.com/calimotour/2.-korzika-2026-r-s4vsniB8f0">🏍️ Calimoto navigáció</a>
+        </div>
+      </div>
 
-      function mulMat3Vec3(m, v) {
-        return [
-          m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2],
-          m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2],
-          m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2]
-        ];
-      }
+      <!-- DAY 03 -->
+      <div class="poi" data-day="3">
+        <div class="poi-head">
+          <div class="poi-day-num">03</div>
+          <div class="poi-info">
+            <div class="poi-title">3. nap · Balagne, Calvi, Porto, Vergio, Niolo</div>
+            <div class="poi-meta-row">
+              <span class="poi-meta-item">📍 <b>12</b> megálló</span>
+              <span class="poi-meta-item">↔ <b>275 km</b></span>
+              <span class="poi-meta-item">▲ <b>6 592 m</b></span>
+              <span class="poi-meta-item">▼ <b>6 590 m</b></span>
+            </div>
+            <div class="poi-desc">A Paoli alapította Île Rousse és a Calvi citadella után a nyugati part UNESCO tájai viszik a főszerepet, Porto és a Spelunca szurdok látványával. A Vergio környéki magashegyi réteg és a Christ Roi szobor már előkészíti a Niolo fennsík hűvösebb világát.</div>
+          </div>
+        </div>
+        <div class="poibtns">
+          <a class="btn btn-accent" href="day03/index.html">Megnyitás</a>
+          <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.568253,8.760439&waypoints=42.5562767,9.0582241%7C42.59334,9.048421%7C42.635741,8.938554%7C42.599313,8.902105%7C42.58233,8.897603%7C42.58897,8.905409">🧭 GMaps navigáció 1</a>
+          <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.568253,8.760439&destination=42.346651,9.013368&waypoints=42.552313,8.73673%7C42.423234,8.723949%7C42.266531,8.705166%7C42.251334,8.761211%7C42.290453,8.87833">🧭 GMaps navigáció 2</a>
+          <a class="btn btn-calimoto" target="_blank" href="https://calimoto.com/calimotour/3.-korzika-2023-r-pDy5WIBTHm">🏍️ Calimoto navigáció</a>
+        </div>
+      </div>
 
-      function transpose(A) {
-        const r = A.length, c = A[0].length;
-        const T = [];
-        for (let j = 0; j < c; j++) {
-          const row = [];
-          for (let i = 0; i < r; i++) row.push(A[i][j]);
-          T.push(row);
+      <!-- DAY 04 -->
+      <div class="poi" data-day="4">
+        <div class="poi-head">
+          <div class="poi-day-num">04</div>
+          <div class="poi-info">
+            <div class="poi-title">4. nap · Niolo, Calacuccia tó, Asco völgy, Haut Asco</div>
+            <div class="poi-meta-row">
+              <span class="poi-meta-item">📍 <b>16</b> megálló</span>
+              <span class="poi-meta-item">↔ <b>187 km</b></span>
+              <span class="poi-meta-item">▲ <b>5 398 m</b></span>
+              <span class="poi-meta-item">▼ <b>5 394 m</b></span>
+            </div>
+            <div class="poi-desc">A Calacuccia gát és a Scala di Santa Regina szurdok műszaki és táji értelemben is nagy napkezdés, utána az Asco völgy szűkületei adják a technikás motoros élményt. A genovai kőhíd és Haut Asco alpesi tere már a Monte Cinto tömegének közvetlen közelsége.</div>
+          </div>
+        </div>
+        <div class="poibtns">
+          <a class="btn btn-accent" href="day04/index.html">Megnyitás</a>
+          <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=42.465,9.102&waypoints=42.334361,9.019304%7C42.35831,9.05857%7C42.3883538,9.2868123%7C42.437817,9.309028%7C42.462267,9.206204%7C42.477176,9.185817">🧭 GMaps navigáció 1</a>
+          <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.465,9.102&destination=42.346651,9.013368&waypoints=42.452898,9.032729%7C42.4468195,9.0314827%7C42.437039,8.995992%7C42.424618,8.965808%7C42.403298,8.921027">🧭 GMaps navigáció 2</a>
+          <a class="btn btn-calimoto" target="_blank" href="https://calimoto.com/calimotour/4.-korzika-2026-r-iphkKiv9zZ">🏍️ Calimoto navigáció</a>
+        </div>
+      </div>
+
+      <!-- DAY 05 -->
+      <div class="poi" data-day="5">
+        <div class="poi-head">
+          <div class="poi-day-num">05</div>
+          <div class="poi-info">
+            <div class="poi-title">5. nap · Keleti part, Solenzara, Bavella hágó, Zonza</div>
+            <div class="poi-meta-row">
+              <span class="poi-meta-item">📍 <b>15</b> megálló</span>
+              <span class="poi-meta-item">↔ <b>340 km</b></span>
+              <span class="poi-meta-item">▲ <b>9 903 m</b></span>
+              <span class="poi-meta-item">▼ <b>9 875 m</b></span>
+            </div>
+            <div class="poi-desc">A belső hegyvidékről a Défilé de l'Inzecca és a Sampolo tó hozza le az útvonalat a keleti síkra, majd Solenzara után visszafordul a hegyekbe. A Bavella hágó és a tűk drámai sziluettje a nap vizuális csúcspontja, Zonza pedig stabil bázis a magashegyi hangulat után.</div>
+          </div>
+        </div>
+        <div class="poibtns">
+          <a class="btn btn-accent" href="day05/index.html">Megnyitás</a>
+          <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=42.346651,9.013368&destination=41.7509696,9.17174&waypoints=42.0968251,9.3059395%7C42.095575,9.281474%7C41.910946,9.388454%7C41.858166,9.402219%7C41.833717,9.313208%7C41.795841,9.224671">🧭 GMaps navigáció 1</a>
+          <a class="btn btn-nav" target="_blank" href="https://www.google.com/maps/dir/?api=1&origin=41.7509696,9.17174&destination=42.346651,9.013368&waypoints=41.9175533,9.1343541%7C42.100623,9.210653%7C42.144107,9.1904057%7C42.172115,9.17106%7C42.193181,9.16763">🧭 GMaps navigáció 2</a>
+          <a class="btn btn-calimoto" target="_blank" href="https://calimoto.com/calimotour/5.-korzika-2026-r-Ma6rAt8Teg">🏍️ Calimoto navigáció</a>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+
+    <!-- TOUR MAP -->
+    <div class="tourmap-section">
+      <div class="tourmap-title">Teljes túra térkép (aktuális pozíció jelöléssel)</div>
+      <div class="tourmap-wrap" id="tourMapWrap">
+        <img class="tourmap-img" id="tourMapImg" src="assets/Foldal_terkepnézet.png" alt="Korzika 2026 teljes térkép">
+        <div class="tourmap-marker" id="tourMarker" aria-hidden="true"></div>
+      </div>
+      <div class="tourmap-note" id="tourMapNote">
+        <b>Megjegyzés:</b> a piros jelölő a böngésző helymeghatározása alapján jelenik meg. Ha a helymeghatározás tiltva van, a jelölő nem fog látszani.
+      </div>
+    </div>
+
+  </div><!-- /container -->
+</div><!-- /page -->
+
+<script>
+  (function () {
+    const img    = document.getElementById("tourMapImg");
+    const marker = document.getElementById("tourMarker");
+    const note   = document.getElementById("tourMapNote");
+
+    const controlPoints = [
+      { name: "Zonza",              lat: 41.750806, lon: 9.174782,  x:  446, y: 534 },
+      { name: "Lozzi",              lat: 42.347554, lon: 9.019212,  x: 1095, y: 393 },
+      { name: "Nyugati part pont",  lat: 42.326667, lon: 8.635438,  x: 1073, y:  82 },
+      { name: "Cap Corse pont",     lat: 42.976269, lon: 9.382087,  x: 1799, y: 670 },
+      { name: "Belső pont",         lat: 42.397793, lon: 8.920860,  x: 1153, y: 315 },
+      { name: "Solenzara környéke", lat: 41.865698, lon: 9.396649,  x:  575, y: 718 }
+    ];
+
+    function clamp(v,mn,mx){return Math.max(mn,Math.min(mx,v));}
+    function invert3x3(m){const[a,b,c]=m[0],[d,e,f]=m[1],[g,h,i]=m[2];const A=e*i-f*h,B=-(d*i-f*g),C=d*h-e*g,D=-(b*i-c*h),E=a*i-c*g,F=-(a*h-b*g),G=b*f-c*e,H=-(a*f-c*d),I=a*e-b*d,det=a*A+b*B+c*C;if(Math.abs(det)<1e-12)return null;const k=1/det;return[[A*k,D*k,G*k],[B*k,E*k,H*k],[C*k,F*k,I*k]];}
+    function m3v3(m,v){return[m[0][0]*v[0]+m[0][1]*v[1]+m[0][2]*v[2],m[1][0]*v[0]+m[1][1]*v[1]+m[1][2]*v[2],m[2][0]*v[0]+m[2][1]*v[1]+m[2][2]*v[2]];}
+    function trans(A){return A[0].map((_,j)=>A.map(r=>r[j]));}
+    function mul(A,B){const r=A.length,k=A[0].length,c=B[0].length,o=Array.from({length:r},()=>Array(c).fill(0));for(let i=0;i<r;i++)for(let j=0;j<c;j++)for(let t=0;t<k;t++)o[i][j]+=A[i][t]*B[t][j];return o;}
+    function mv(A,v){return A.map(row=>row.reduce((s,a,j)=>s+a*v[j],0));}
+
+    function fitAffine(pts){
+      if(!pts||pts.length<3)return null;
+      const A=pts.map(p=>[p.lon,p.lat,1]),bx=pts.map(p=>p.x),by=pts.map(p=>p.y);
+      const AT=trans(A),inv=invert3x3(mul(AT,A));
+      if(!inv)return null;
+      return{px:m3v3(inv,mv(AT,bx)),py:m3v3(inv,mv(AT,by))};
+    }
+    function ll2px(lat,lon,m){return{x:m.px[0]*lon+m.px[1]*lat+m.px[2],y:m.py[0]*lon+m.py[1]*lat+m.py[2]};}
+    function setMark(x,y){
+      const rect=img.getBoundingClientRect();
+      marker.style.left=clamp(x*(rect.width/(img.naturalWidth||1)),0,rect.width)+"px";
+      marker.style.top=clamp(y*(rect.height/(img.naturalHeight||1)),0,rect.height)+"px";
+      marker.style.display="block";
+    }
+
+    function init(){
+      const mdl=fitAffine(controlPoints);
+      if(!mdl){note.textContent="A térkép illesztés nem sikerült (kevés vagy hibás kontroll pont).";return;}
+      if(!navigator.geolocation){note.textContent="A böngésző nem támogatja a helymeghatározást, ezért a piros jelölő nem jelenik meg.";return;}
+      navigator.geolocation.getCurrentPosition(
+        pos=>{const p=ll2px(pos.coords.latitude,pos.coords.longitude,mdl);setMark(p.x,p.y);note.innerHTML="<b>Aktuális pozíció</b> jelölve a térképen.";},
+        err=>{const m={1:"A helymeghatározás tiltva van, ezért a piros jelölő nem jelenik meg.",2:"A helymeghatározás nem érhető el (nincs jel), ezért a piros jelölő nem jelenik meg.",3:"A helymeghatározás időtúllépés miatt nem sikerült, ezért a piros jelölő nem jelenik meg."};note.textContent=m[err?.code]||"A helymeghatározás nem elérhető, ezért a piros jelölő nem jelenik meg.";},
+        {enableHighAccuracy:true,maximumAge:15000,timeout:12000}
+      );
+    }
+
+    img.complete?init():img.addEventListener("load",init);
+
+    let rt=null;
+    window.addEventListener("resize",()=>{
+      clearTimeout(rt);
+      rt=setTimeout(()=>{
+        if(marker.style.display==="block"&&navigator.geolocation){
+          const mdl=fitAffine(controlPoints);if(!mdl)return;
+          navigator.geolocation.getCurrentPosition(
+            pos=>{const p=ll2px(pos.coords.latitude,pos.coords.longitude,mdl);setMark(p.x,p.y);},
+            ()=>{},{enableHighAccuracy:false,maximumAge:15000,timeout:8000}
+          );
         }
-        return T;
-      }
-
-      function mul(A, B) {
-        const r = A.length, k = A[0].length, c = B[0].length;
-        const out = Array.from({ length: r }, () => Array(c).fill(0));
-        for (let i = 0; i < r; i++) {
-          for (let j = 0; j < c; j++) {
-            let s = 0;
-            for (let t = 0; t < k; t++) s += A[i][t] * B[t][j];
-            out[i][j] = s;
-          }
-        }
-        return out;
-      }
-
-      function mulMatVec(A, v) {
-        const r = A.length, c = A[0].length;
-        const out = Array(r).fill(0);
-        for (let i = 0; i < r; i++) {
-          let s = 0;
-          for (let j = 0; j < c; j++) s += A[i][j] * v[j];
-          out[i] = s;
-        }
-        return out;
-      }
-
-      function fitAffine(points) {
-        if (!points || points.length < 3) return null;
-
-        const A = points.map(p => [p.lon, p.lat, 1]);
-        const bx = points.map(p => p.x);
-        const by = points.map(p => p.y);
-
-        const AT = transpose(A);
-        const ATA = mul(AT, A);
-        const invATA = invert3x3(ATA);
-        if (!invATA) return null;
-
-        const ATbx = mulMatVec(AT, bx);
-        const ATby = mulMatVec(AT, by);
-
-        const px = mulMat3Vec3(invATA, ATbx);
-        const py = mulMat3Vec3(invATA, ATby);
-
-        return { px, py };
-      }
-
-      function latLonToPixel(lat, lon, model) {
-        const x = model.px[0] * lon + model.px[1] * lat + model.px[2];
-        const y = model.py[0] * lon + model.py[1] * lat + model.py[2];
-        return { x, y };
-      }
-
-      function setMarkerAtImagePixel(x, y) {
-        const nw = img.naturalWidth || 1;
-        const rect = img.getBoundingClientRect();
-        const sx = rect.width / nw;
-        const sy = rect.height / (img.naturalHeight || 1);
-
-        const left = x * sx;
-        const top = y * sy;
-
-        const cl = clamp(left, 0, rect.width);
-        const ct = clamp(top, 0, rect.height);
-
-        marker.style.left = cl + "px";
-        marker.style.top = ct + "px";
-        marker.style.display = "block";
-      }
-
-      function showNote(text) {
-        note.textContent = text;
-      }
-
-      function init() {
-        const model = fitAffine(controlPoints);
-        if (!model) {
-          showNote("A térkép illesztés nem sikerült (kevés vagy hibás kontroll pont).");
-          return;
-        }
-
-        if (!navigator.geolocation) {
-          showNote("A böngésző nem támogatja a helymeghatározást, ezért a piros jelölő nem jelenik meg.");
-          return;
-        }
-
-        navigator.geolocation.getCurrentPosition(
-          (pos) => {
-            const lat = pos.coords.latitude;
-            const lon = pos.coords.longitude;
-
-            const p = latLonToPixel(lat, lon, model);
-            setMarkerAtImagePixel(p.x, p.y);
-
-            showNote("Aktuális pozíció jelölve a térképen.");
-          },
-          (err) => {
-            let msg = "A helymeghatározás nem elérhető, ezért a piros jelölő nem jelenik meg.";
-            if (err && err.code === 1) msg = "A helymeghatározás tiltva van, ezért a piros jelölő nem jelenik meg.";
-            if (err && err.code === 2) msg = "A helymeghatározás nem érhető el (nincs jel), ezért a piros jelölő nem jelenik meg.";
-            if (err && err.code === 3) msg = "A helymeghatározás időtúllépés miatt nem sikerült, ezért a piros jelölő nem jelenik meg.";
-            showNote(msg);
-          },
-          {
-            enableHighAccuracy: true,
-            maximumAge: 15000,
-            timeout: 12000
-          }
-        );
-      }
-
-      if (img.complete) {
-        init();
-      } else {
-        img.addEventListener("load", init);
-      }
-
-      let resizeTimer = null;
-      window.addEventListener("resize", function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () {
-          if (marker.style.display === "block") {
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(
-                (pos) => {
-                  const model = fitAffine(controlPoints);
-                  if (!model) return;
-                  const p = latLonToPixel(pos.coords.latitude, pos.coords.longitude, model);
-                  setMarkerAtImagePixel(p.x, p.y);
-                },
-                () => { },
-                { enableHighAccuracy: false, maximumAge: 15000, timeout: 8000 }
-              );
-            }
-          }
-        }, 250);
-      });
-    })();
-  </script>
+      },250);
+    });
+  })();
+</script>
 </body>
-
 </html>
